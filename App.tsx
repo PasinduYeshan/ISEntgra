@@ -10,6 +10,7 @@
 
 import React , {useState} from 'react';
 import {
+  Button,
   SafeAreaView,
   ScrollView,
   StatusBar,
@@ -66,7 +67,7 @@ const App = () => {
     backgroundColor: isDarkMode ? Colors.darker : Colors.lighter,
   };
 
-  EntgraServiceManager.getDeviceAttributesT(
+  const getDeviceAttributes = () => EntgraServiceManager.getDeviceAttributes(
     (res: any) => { setDeviceAttributes(res); },
     (err : String) => { console.log(err);}
   );
@@ -84,6 +85,9 @@ const App = () => {
           style={{
             backgroundColor: isDarkMode ? Colors.black : Colors.white,
           }}>
+          <Button
+            title = "Get Device Attributes"
+            onPress={getDeviceAttributes} />
           <Section title="Is Device Rooted">
             {deviceAttributes.isDeviceRooted.toString()}
           </Section>

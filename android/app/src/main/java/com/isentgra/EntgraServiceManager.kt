@@ -21,59 +21,37 @@ import io.entgra.device.mgt.sdk.info.TelephoneInfo
 class EntgraServiceManager(reactContext : ReactApplicationContext, context : Context) : ReactContextBaseJavaModule(reactContext) {
     // Context for Entgra Device managment sdk
     var ctx : Context = context;
-    var resultData =  WritableNativeMap();
+    
     
     override fun getName(): String {
         return "EntgraServiceManager";
     }
 
-    init{
-        setDeviceAttributes(); 
-    }
+    // init{
+    //     setDeviceAttributes(); 
+    // }
 
-    fun setDeviceAttributes () {
+    fun setDeviceAttributes  () : WritableMap{
         var compromiseCheck = CompromiseCheck(ctx);
         var isDeviceRooted = compromiseCheck.isDeviceRooted();
         var isDevModeEnabled = compromiseCheck.isDevModeEnabled();
         var isADBEnabled = compromiseCheck.isADBEnabled();
-        
+        var resultData =  WritableNativeMap();
         resultData.putBoolean("isDeviceRooted", isDeviceRooted);
         resultData.putBoolean("isDevModeEnabled", isDevModeEnabled);
         resultData.putBoolean("isADBEnabled", isADBEnabled);
+        return resultData;
     }
 
     @ReactMethod
-    fun getDeviceAttributes(response : Promise) {
+    fun getDeviceAttributes(  successCallback : Callback, errorCallback : Callback) {
         try {
-            response.resolve(resultData);
-        } catch (e: Exception) {
-            response.reject("Error", e)
-        }
-    }
-
-    @ReactMethod
-    fun getDeviceAttributesT(  successCallback : Callback, errorCallback : Callback) {
-        try {
-            successCallback(resultData);
+            val result = setDeviceAttributes(); 
+            successCallback.invoke(result);
         } catch (e: Exception) {
             errorCallback(e.toString());
         }
     }
-
-    @ReactMethod
-    fun checkDeviceAttributes(response : Promise) {
-        try {
-            setDeviceAttributes(); 
-            response.resolve(true);
-        } catch (e: Exception) {
-            response.reject("Error", e)
-        }
-    }
-
-
-    // companion object {
-    //     private lateint WritableMap resultData ;
-    // }
 
 }
 
