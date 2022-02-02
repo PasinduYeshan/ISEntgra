@@ -8,7 +8,7 @@
  * @format
  */
 
-import React , { useState } from 'react';
+import React , {useState} from 'react';
 import {
   SafeAreaView,
   ScrollView,
@@ -23,10 +23,6 @@ import EntgraServiceManager from './entgraService';
 
 import {
   Colors,
-  DebugInstructions,
-  Header,
-  LearnMoreLinks,
-  ReloadInstructions,
 } from 'react-native/Libraries/NewAppScreen';
 
 const Section: React.FC<{
@@ -60,20 +56,23 @@ const Section: React.FC<{
 const App = () => {
   const isDarkMode = useColorScheme() === 'dark';
 
-  const [deviceAttributes, setDeviceAttributes] = useState('');
+  const [deviceAttributes, setDeviceAttributes] = useState({
+    "isDeviceRooted": "",
+    "isDevModeEnabled": "",
+    "isADBEnabled" : ""
+  });
 
   const backgroundStyle = {
     backgroundColor: isDarkMode ? Colors.darker : Colors.lighter,
   };
 
-  EntgraServiceManager.getDeviceAttributes().then(
-    (res: any) => {
-      setDeviceAttributes(res);
-    }).catch((err: any) => {
-      console.error(err);
-    });
+  EntgraServiceManager.getDeviceAttributesT(
+    (res: any) => { setDeviceAttributes(res); },
+    (err : String) => { console.log(err);}
+  );
   
-  console.log(deviceAttributes);
+  // console.log(deviceAttributes);
+  
 
   return (
     <SafeAreaView style={backgroundStyle}>
@@ -81,25 +80,19 @@ const App = () => {
       <ScrollView
         contentInsetAdjustmentBehavior="automatic"
         style={backgroundStyle}>
-        <Header />
         <View
           style={{
             backgroundColor: isDarkMode ? Colors.black : Colors.white,
           }}>
-          <Section title="Step One">
-            Edit <Text style={styles.highlight}>App.tsx</Text> to change this
-            screen and then come back to see your edits.
+          <Section title="Is Device Rooted">
+            {deviceAttributes.isDeviceRooted.toString()}
           </Section>
-          <Section title="See Your Changes">
-            <ReloadInstructions />
+          <Section title="Is Development Mode Enabled">
+            {deviceAttributes.isDevModeEnabled.toString()}
           </Section>
-          <Section title="Debug">
-            <DebugInstructions />
+          <Section title="Is ADB Enabled">
+            {deviceAttributes.isADBEnabled.toString()}
           </Section>
-          <Section title="Learn More">
-            Read the docs to discover what to do next:
-          </Section>
-          <LearnMoreLinks />
         </View>
       </ScrollView>
     </SafeAreaView>

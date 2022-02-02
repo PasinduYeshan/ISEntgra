@@ -8,11 +8,11 @@ import java.util.*
 import android.content.Context 
 
 class EntgraServicePackage (context : Context): ReactPackage {
-    var c : Context = context;
+    var ctx : Context = context;
 
     override fun createNativeModules(reactContext: ReactApplicationContext): List<NativeModule> {
         val modules = ArrayList<NativeModule>()
-        modules.add(EntgraServiceManager(reactContext, c))
+        modules.add(EntgraServiceManager(reactContext, ctx))
         return modules
     }
 
