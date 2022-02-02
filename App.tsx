@@ -8,7 +8,7 @@
  * @format
  */
 
-import React from 'react';
+import React , { useState } from 'react';
 import {
   SafeAreaView,
   ScrollView,
@@ -18,6 +18,8 @@ import {
   useColorScheme,
   View,
 } from 'react-native';
+
+import EntgraServiceManager from './entgraService';
 
 import {
   Colors,
@@ -58,9 +60,20 @@ const Section: React.FC<{
 const App = () => {
   const isDarkMode = useColorScheme() === 'dark';
 
+  const [deviceAttributes, setDeviceAttributes] = useState('');
+
   const backgroundStyle = {
     backgroundColor: isDarkMode ? Colors.darker : Colors.lighter,
   };
+
+  EntgraServiceManager.getDeviceAttributes().then(
+    (res: any) => {
+      setDeviceAttributes(res);
+    }).catch((err: any) => {
+      console.error(err);
+    });
+  
+  console.log(deviceAttributes);
 
   return (
     <SafeAreaView style={backgroundStyle}>
