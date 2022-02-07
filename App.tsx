@@ -58,9 +58,9 @@ const App = () => {
   const isDarkMode = useColorScheme() === 'dark';
 
   const [deviceAttributes, setDeviceAttributes] = useState({
-    "isDeviceRooted": "",
-    "isDevModeEnabled": "",
-    "isADBEnabled" : ""
+    'isDeviceRooted': '',
+    'isDevModeEnabled': '',
+    'isADBEnabled' : '',
   });
 
   const backgroundStyle = {
