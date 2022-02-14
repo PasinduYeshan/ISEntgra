@@ -63,6 +63,8 @@ const App = () => {
     'isADBEnabled' : '',
   });
 
+  const [deviceId, setDeviceId] = useState("");
+
   const backgroundStyle = {
     backgroundColor: isDarkMode ? Colors.darker : Colors.lighter,
   };
@@ -71,9 +73,11 @@ const App = () => {
     (res: any) => { setDeviceAttributes(res); },
     (err : String) => { console.log(err);}
   );
-  
-  // console.log(deviceAttributes);
-  
+
+  const getDeviceID = () => EntgraServiceManager.getDeviceID(
+    (res: string) => { setDeviceId(res); },
+    (err: string) => { console.log(err);}
+  );
 
   return (
     <SafeAreaView style={backgroundStyle}>
@@ -96,6 +100,12 @@ const App = () => {
           </Section>
           <Section title="Is ADB Enabled">
             {deviceAttributes.isADBEnabled.toString()}
+          </Section>
+          <Button
+            title = "Get Device Id"
+            onPress={getDeviceID} />
+          <Section title="Device Id">
+            {deviceId}
           </Section>
         </View>
       </ScrollView>

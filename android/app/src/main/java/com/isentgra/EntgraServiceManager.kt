@@ -11,12 +11,14 @@ import android.text.style.WrapTogetherSpan
 import com.facebook.react.bridge.WritableMap
 import com.facebook.react.bridge.WritableNativeMap
 import com.facebook.react.bridge.Callback
+import com.google.gson.JsonElement
 
 // Entgra SDK APIs
 import io.entgra.device.mgt.sdk.api.compromise.CompromiseCheck
 import io.entgra.device.mgt.sdk.api.http.Server
 import io.entgra.device.mgt.sdk.common.exception.NetworkAccessException
 import io.entgra.device.mgt.sdk.info.TelephoneInfo
+import io.entgra.device.mgt.sdk.info.DeviceInfo
 
 class EntgraServiceManager(reactContext : ReactApplicationContext, context : Context) : ReactContextBaseJavaModule(reactContext) {
     // Context for Entgra Device managment sdk
@@ -27,11 +29,8 @@ class EntgraServiceManager(reactContext : ReactApplicationContext, context : Con
         return "EntgraServiceManager";
     }
 
-    // init{
-    //     setDeviceAttributes(); 
-    // }
-
-    fun setDeviceAttributes  () : WritableMap{
+    // Get device attributes using loca SDK APIs
+    fun getDeviceAttributesLocally  () : WritableMap{
         var compromiseCheck = CompromiseCheck(ctx);
         var isDeviceRooted = compromiseCheck.isDeviceRooted();
         var isDevModeEnabled = compromiseCheck.isDevModeEnabled();
@@ -43,10 +42,35 @@ class EntgraServiceManager(reactContext : ReactApplicationContext, context : Con
         return resultData;
     }
 
+    
+    // Get telephoen info locally 
+    fun getTelephoneInfoLocally  () : Set<Map.Entry<String, JsonElement?>> {
+        var telephoneInfo = TelephoneInfo(ctx)
+        val entrySet: Set<Map.Entry<String, JsonElement?>> = telephoneInfo.getAllProperties().entrySet();
+        return entrySet;
+    }
+
+    // Get device identifier
+    fun getDeviceIdentifier () : String {
+        var deviceInfo = DeviceInfo(ctx)
+        var deviceId = deviceInfo.getDeviceId()
+        return deviceId;
+    }
+
     @ReactMethod
     fun getDeviceAttributes(  successCallback : Callback, errorCallback : Callback) {
         try {
-            val result = setDeviceAttributes(); 
+            val result = getDeviceAttributesLocally(); 
+            successCallback.invoke(result);
+        } catch (e: Exception) {
+            errorCallback(e.toString());
+        }
+    }
+
+    @ReactMethod
+    fun getDeviceID(  successCallback : Callback, errorCallback : Callback) {
+        try {
+            val result = getDeviceIdentifier(); 
             successCallback.invoke(result);
         } catch (e: Exception) {
             errorCallback(e.toString());
