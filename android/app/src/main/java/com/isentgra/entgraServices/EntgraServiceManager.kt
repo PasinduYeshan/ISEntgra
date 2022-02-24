@@ -20,9 +20,9 @@ import io.entgra.device.mgt.sdk.common.exception.NetworkAccessException
 import io.entgra.device.mgt.sdk.info.TelephoneInfo
 import io.entgra.device.mgt.sdk.info.DeviceInfo
 
-class EntgraServiceManager(reactContext : ReactApplicationContext, context : Context) : ReactContextBaseJavaModule(reactContext) {
+class EntgraServiceManager(reactContext : ReactApplicationContext) : ReactContextBaseJavaModule(reactContext) {
     // Context for Entgra Device managment sdk
-    var ctx : Context = context;
+    var ctx : Context = reactContext;
     
     
     override fun getName(): String {
@@ -61,7 +61,7 @@ class EntgraServiceManager(reactContext : ReactApplicationContext, context : Con
     fun getDeviceAttributes(  successCallback : Callback, errorCallback : Callback) {
         try {
             val result = getDeviceAttributesLocally(); 
-            successCallback.invoke(result);
+            successCallback(result);
         } catch (e: Exception) {
             errorCallback(e.toString());
         }
@@ -71,7 +71,7 @@ class EntgraServiceManager(reactContext : ReactApplicationContext, context : Con
     fun getDeviceID(  successCallback : Callback, errorCallback : Callback) {
         try {
             val result = getDeviceIdentifier(); 
-            successCallback.invoke(result);
+            successCallback(result);
         } catch (e: Exception) {
             errorCallback(e.toString());
         }

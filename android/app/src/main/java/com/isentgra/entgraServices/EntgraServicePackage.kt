@@ -7,12 +7,11 @@ import com.facebook.react.uimanager.ViewManager
 import java.util.*
 import android.content.Context 
 
-class EntgraServicePackage (context : Context): ReactPackage {
-    var ctx : Context = context;
+class EntgraServicePackage (): ReactPackage {
 
     override fun createNativeModules(reactContext: ReactApplicationContext): List<NativeModule> {
         val modules = ArrayList<NativeModule>()
-        modules.add(EntgraServiceManager(reactContext, ctx))
+        modules.add(EntgraServiceManager(reactContext))
         return modules
     }
 
