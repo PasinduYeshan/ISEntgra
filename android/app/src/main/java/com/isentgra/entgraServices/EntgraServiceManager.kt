@@ -1,4 +1,4 @@
-package com.isentgra;
+package com.isentgra.entgraServices;
 
 import android.content.Intent
 import com.facebook.react.bridge.ReactApplicationContext
