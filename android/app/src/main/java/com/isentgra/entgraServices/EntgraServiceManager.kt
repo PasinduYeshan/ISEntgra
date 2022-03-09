@@ -29,7 +29,7 @@ class EntgraServiceManager(reactContext : ReactApplicationContext) : ReactContex
         return "EntgraServiceManager";
     }
 
-    // Get device attributes using loca SDK APIs
+    // Get device attributes using local SDK APIs
     fun getDeviceAttributesLocally  () : WritableMap{
         var compromiseCheck = CompromiseCheck(ctx);
         var isDeviceRooted = compromiseCheck.isDeviceRooted();
@@ -43,7 +43,7 @@ class EntgraServiceManager(reactContext : ReactApplicationContext) : ReactContex
     }
 
     
-    // Get telephoen info locally 
+    // Get telephone info locally 
     fun getTelephoneInfoLocally  () : Set<Map.Entry<String, JsonElement?>> {
         var telephoneInfo = TelephoneInfo(ctx)
         val entrySet: Set<Map.Entry<String, JsonElement?>> = telephoneInfo.getAllProperties().entrySet();
