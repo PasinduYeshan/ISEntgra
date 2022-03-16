@@ -20,7 +20,7 @@ import {
   View,
 } from 'react-native';
 
-import EntgraServiceManager from './entgraService';
+import EntgraServiceManager from './src/services/entgraService';
 
 import {
   Colors,
@@ -70,8 +70,8 @@ const App = () => {
   };
 
   const getDeviceAttributes = () => EntgraServiceManager.getDeviceAttributes(
-    (res: any) => { setDeviceAttributes(res); },
-    (err : String) => { console.log(err);}
+    (res: any) => { setDeviceAttributes(res); }, // Success callback
+    (err : String) => { console.log(err);} // Error callback
   );
 
   const getDeviceID = () => EntgraServiceManager.getDeviceID(
