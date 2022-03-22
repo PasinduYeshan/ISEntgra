@@ -10,6 +10,10 @@
 
 #import <React/RCTBridgeModule.h>
 @interface EntgraServiceModule : NSObject <RCTBridgeModule>
+
+- (void) getDeviceID : (RCTResponseSenderBlock)successCallback errorCallback: (RCTResponseSenderBlock)errorCallback;
+- (void) getDeviceAttributes : (RCTResponseSenderBlock)successCallback errorCallback: (RCTResponseSenderBlock)errorCallback;
+
 @end
 
 #endif /* EntgraServiceModule_h */

@@ -1,6 +1,7 @@
 package com.isentgra;
 
 import com.facebook.react.ReactActivity;
+import android.os.Bundle;
 
 public class MainActivity extends ReactActivity {
 
@@ -12,4 +13,12 @@ public class MainActivity extends ReactActivity {
   protected String getMainComponentName() {
     return "ISEntgra";
   }
+
+  /**
+   * Add this according to React Navigation Native instructions
+   */
+  @Override
+protected void onCreate(Bundle savedInstanceState) {
+  super.onCreate(null);
+}
 }

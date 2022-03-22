@@ -1,4 +1,3 @@
-/* eslint-disable prettier/prettier */
 import {NativeModules} from 'react-native';
 
 // Get Entgra Services from Native Modules and export

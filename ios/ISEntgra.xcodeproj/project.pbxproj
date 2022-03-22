@@ -15,6 +15,7 @@
 		7EF68E3733C33B6898317E18 /* libPods-ISEntgra-ISEntgraTests.a in Frameworks */ = {isa = PBXBuildFile; fileRef = ABFE59519B596E51CEFDCCC0 /* libPods-ISEntgra-ISEntgraTests.a */; };
 		81AB9BB82411601600AC10FF /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 81AB9BB72411601600AC10FF /* LaunchScreen.storyboard */; };
 		CE17BA3E27E1C5F100D9A92E /* EntgraServiceModule.m in Sources */ = {isa = PBXBuildFile; fileRef = CE17BA3D27E1C5F100D9A92E /* EntgraServiceModule.m */; };
+		CE17BA4427E2564500D9A92E /* Test.m in Sources */ = {isa = PBXBuildFile; fileRef = CE17BA4327E2564500D9A92E /* Test.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -45,6 +46,7 @@
 		C0A881CF5CF3F2B244570E2A /* Pods-ISEntgra.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ISEntgra.debug.xcconfig"; path = "Target Support Files/Pods-ISEntgra/Pods-ISEntgra.debug.xcconfig"; sourceTree = "<group>"; };
 		CE17BA3C27E1C5DA00D9A92E /* EntgraServiceModule.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = EntgraServiceModule.h; sourceTree = "<group>"; };
 		CE17BA3D27E1C5F100D9A92E /* EntgraServiceModule.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = EntgraServiceModule.m; sourceTree = "<group>"; };
+		CE17BA4327E2564500D9A92E /* Test.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = Test.m; sourceTree = "<group>"; };
 		D00AAFFCFCFDA5787532823F /* Pods-ISEntgra.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ISEntgra.release.xcconfig"; path = "Target Support Files/Pods-ISEntgra/Pods-ISEntgra.release.xcconfig"; sourceTree = "<group>"; };
 		ED297162215061F000B7C4FE /* JavaScriptCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = JavaScriptCore.framework; path = System/Library/Frameworks/JavaScriptCore.framework; sourceTree = SDKROOT; };
 /* End PBXFileReference section */
@@ -146,6 +148,7 @@
 			children = (
 				CE17BA3C27E1C5DA00D9A92E /* EntgraServiceModule.h */,
 				CE17BA3D27E1C5F100D9A92E /* EntgraServiceModule.m */,
+				CE17BA4327E2564500D9A92E /* Test.m */,
 			);
 			path = EntgraServiceModule;
 			sourceTree = "<group>";
@@ -424,6 +427,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				CE17BA3E27E1C5F100D9A92E /* EntgraServiceModule.m in Sources */,
+				CE17BA4427E2564500D9A92E /* Test.m in Sources */,
 				13B07FBC1A68108700A75B9A /* AppDelegate.m in Sources */,
 				13B07FC11A68108700A75B9A /* main.m in Sources */,
 			);

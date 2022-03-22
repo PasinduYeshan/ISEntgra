@@ -27,22 +27,6 @@ RCT_EXPORT_METHOD(getDeviceID: (RCTResponseSenderBlock)successCallback errorCall
   }
 }
 
-// Get device attributes method
-RCT_EXPORT_METHOD(getDeviceAttributes: (RCTResponseSenderBlock)successCallback errorCallback: (RCTResponseSenderBlock)errorCallback)
-{
-  @try{
-    // Implement get device attributes logic
-    NSDictionary *deviceAttributes = @{
-      @"isDeviceRooted": @"IOSTestRooted",
-      @"isDevModeEnabled": @"IOSDevMode",
-      @"isADBEnabled" : @"IOSADBEnabled"
-    };
-    successCallback(@[deviceAttributes]);
-  }
-  @catch(NSException *exception){
-    errorCallback(@[exception]);
-  }
-}
 
 
 // Enroll mobile device in Entgra Server
