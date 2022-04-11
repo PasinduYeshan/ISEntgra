@@ -11,7 +11,7 @@ import {
 } from 'react-native';
 import {Colors} from 'react-native/Libraries/NewAppScreen';
 
-import EntgraServiceManager from '../services/entgraService';
+import {getDeviceAttributes, getDeviceID} from '../services/entgraService';
 
 const DeviceAttributesScreen = () => {
   const isDarkMode = useColorScheme() === 'dark';
@@ -27,25 +27,23 @@ const DeviceAttributesScreen = () => {
     backgroundColor: isDarkMode ? Colors.darker : Colors.lighter,
   };
 
-  const getDeviceAttributes = () =>
-    EntgraServiceManager.getDeviceAttributes(
-      (res: any) => {
-        setDeviceAttributes(res);
-      }, // Success callback
-      (err: String) => {
-        console.log(err);
-      }, // Error callback
-    );
+  const _getDeviceAttributes = async () => {
+    try {
+      const res = await getDeviceAttributes();
+      setDeviceAttributes(res);
+    } catch (err) {
+      console.log(err);
+    }
+  };
 
-  const getDeviceID = () =>
-    EntgraServiceManager.getDeviceID(
-      (res: string) => {
-        setDeviceId(res);
-      },
-      (err: string) => {
-        console.log(err);
-      },
-    );
+  const _getDeviceID = async () => {
+    try {
+      const res = await getDeviceID();
+      setDeviceId(res);
+    } catch (err) {
+      console.log(err);
+    }
+  };
 
   return (
     <>
@@ -60,7 +58,7 @@ const DeviceAttributesScreen = () => {
             }}>
             <Button
               title="Get Device Attributes"
-              onPress={getDeviceAttributes}
+              onPress={_getDeviceAttributes}
             />
             <Section title="Is Device Rooted">
               {deviceAttributes.isDeviceRooted.toString()}
@@ -71,7 +69,7 @@ const DeviceAttributesScreen = () => {
             <Section title="Is ADB Enabled">
               {deviceAttributes.isADBEnabled.toString()}
             </Section>
-            <Button title="Get Device Id" onPress={getDeviceID} />
+            <Button title="Get Device Id" onPress={_getDeviceID} />
             <Section title="Device Id">{deviceId}</Section>
           </View>
         </ScrollView>

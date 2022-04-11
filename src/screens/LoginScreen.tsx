@@ -8,14 +8,20 @@ import {
   View,
 } from 'react-native';
 // TODO: Check usage
-import "text-encoding-polyfill";
+import 'text-encoding-polyfill';
 import {useAuthContext} from '@asgardeo/auth-react-native';
+import {GetAuthURLConfig} from '@asgardeo/auth-js';
 import {styles} from '../theme/styles';
 import {initialState, useLoginContext} from '../context/LoginContext';
+import {getDeviceID} from '../services/entgraService';
+
+interface Bar {
+  device_id: string;
+}
 
 // Create a config object containing the necessary configurations.
 const config = {
-  clientID: '2hEVOCMPrCEXyqMIzmBtSTuYhJMa',
+  clientID: 'X7c9v_LX6c5PdLqy3fEyaAvsElsa',
   serverOrigin: 'https://10.0.2.2:9443',
   // signInRedirectURL: "wso2sample://oauth2"
   signInRedirectURL: 'http://10.0.2.2:8081',
@@ -33,13 +39,16 @@ const LoginScreen = (props: {
     getBasicUserInfo,
     getIDToken,
     getDecodedIDToken,
+    getAuthorizationURL,
   } = useAuthContext();
 
   /**
    * This hook will initialize the auth provider with the config object.
    */
   useEffect(() => {
-    initialize(config);
+    initialize(config).catch(error => {
+      console.log(error);
+    });
   }, []);
 
   /**
@@ -83,12 +92,27 @@ const LoginScreen = (props: {
    */
   const handleSubmitPress = async () => {
     setLoading(true);
-    signIn().catch((error: any) => {
+
+    let authURLConfig: GetAuthURLConfig = {};
+    // Fetch device id from Entgra SDK and set it in the config object.
+    try {
+      const deviceID = await getDeviceID();
+      authURLConfig = {
+        device_id: deviceID,
+      };
+      
+      // Sign in
+      signIn(authURLConfig).catch((error: any) => {
+        setLoading(false);
+        // eslint-disable-next-line no-console
+        console.log(error);
+      });
+    } catch (err) {
       setLoading(false);
       // eslint-disable-next-line no-console
-      console.log(error);
-    });
-    console.log('after sign in', state);
+      console.log('Login error: ', err);
+      return;
+    }
   };
 
   return (
@@ -125,7 +149,6 @@ const LoginScreen = (props: {
           {loading ? (
             <View style={styles.loading} pointerEvents="none">
               <ActivityIndicator size="large" color="#FF8000" />
-              
             </View>
           ) : null}
         </View>

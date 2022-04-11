@@ -58,22 +58,22 @@ class EntgraServiceManager(reactContext : ReactApplicationContext) : ReactContex
     }
 
     @ReactMethod
-    fun getDeviceAttributes(  successCallback : Callback, errorCallback : Callback) {
+    fun getDeviceAttributes(  promise : Promise) {
         try {
             val result = getDeviceAttributesLocally(); 
-            successCallback(result);
+            promise.resolve(result);
         } catch (e: Exception) {
-            errorCallback(e.toString());
+            promise.reject(e);
         }
     }
 
     @ReactMethod
-    fun getDeviceID(  successCallback : Callback, errorCallback : Callback) {
+    fun getDeviceID( promise : Promise) {
         try {
             val result = getDeviceIdentifier(); 
-            successCallback(result);
+            promise.resolve(result);
         } catch (e: Exception) {
-            errorCallback(e.toString());
+            promise.reject("Entgra Device Id error : ",e);
         }
     }
 

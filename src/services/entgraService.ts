@@ -4,14 +4,18 @@ import {NativeModules} from 'react-native';
 const {EntgraServiceManager} = NativeModules;
 
 interface IEntgraServiceManager {
-  getDeviceAttributes(
-    successCallback: (res: any) => void,
-    errorCallback: (error: any) => void,
-  ): void;
-  getDeviceID(
-    successCallback: (res: any) => void,
-    errorCallback: (error: any) => void,
-  ): void;
+  getDeviceAttributes(): Promise<any>;
+  getDeviceID(): Promise<string>;
+}
+
+// Get Device Attributes from Native Entgra Module
+export async function getDeviceAttributes(): Promise<any> {
+  return await EntgraServiceManager.getDeviceAttributes();
+}
+
+// Get DeviceID from Native Entgra Module
+export async function getDeviceID(): Promise<string> {
+  return await EntgraServiceManager.getDeviceID();
 }
 
 export default EntgraServiceManager as IEntgraServiceManager;
