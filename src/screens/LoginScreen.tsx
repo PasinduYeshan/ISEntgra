@@ -55,7 +55,6 @@ const LoginScreen = (props: {
    * This hook will listen for auth state updates and proceed.
    */
   useEffect(() => {
-    console.log(state);
     if (state?.isAuthenticated) {
       const getData = async () => {
         try {
@@ -109,41 +108,25 @@ const LoginScreen = (props: {
     } catch (err) {
       setLoading(false);
       // eslint-disable-next-line no-console
-      console.log('Login error: ', err);
-      return;
-    }
-  };
-
-  /**
-   * This function will be triggered upon logout button click.
-   */
-  const handleEnrollPress = async () => {
-    setLoading(true);
-    try {
-      const res = await enrollDevice();
-      console.log(res);
-      setLoading(false);
-    } catch (err) {
-      setLoading(false);
-      // eslint-disable-next-line no-console
-      console.log('Device enrolling error: ', err);
+      console.log(err);
       return;
     }
   };
 
   return (
-    <View style={styles.mainBody}>
-      <View>
-        <View style={styles.container}>
-          <View>
-            <Text style={styles.topicText}>IS Entgra React Native Sample</Text>
-          </View>
-          <View style={styles.imageAlign}>
-            <Image
-              source={require('../assets/images/login.jpg')}
-              style={styles.image}
-            />
-            {/* <Text style={styles.textpara}>
+    <View style={{...styles.mainBody, justifyContent : 'space-between'}}>
+      <View style={{...styles.container, justifyContent : 'space-between' }}>
+        <View style={{width: '90%'}}>
+          <Text numberOfLines={1} adjustsFontSizeToFit style={styles.topicText}>
+            IS Entgra React Native Sample
+          </Text>
+        </View>
+        <View style={{...styles.imageAlign, marginVertical: 10}}>
+          <Image
+            source={require('../assets/images/login.jpg')}
+            style={styles.loginScreenImage}
+          />
+          {/* <Text style={styles.textpara}>
               Sample demo to showcase authentication for a React Native via the
               OpenID Connect Authorization Code flow, which is integrated using
               the{' '}
@@ -158,30 +141,22 @@ const LoginScreen = (props: {
               </Text>
               .
             </Text> */}
-          </View>
-          <View style={styles.button}>
-            <Button
-              color="#282c34"
-              onPress={handleEnrollPress}
-              title="Enroll Device"
-            />
-          </View>
-          <View style={styles.button}>
-            <Button color="#282c34" onPress={handleSubmitPress} title="Login" />
-          </View>
-          {loading ? (
-            <View style={styles.loading} pointerEvents="none">
-              <ActivityIndicator size="large" color="#FF8000" />
-            </View>
-          ) : null}
         </View>
+        <View style={styles.button}>
+          <Button color="#282c34" onPress={handleSubmitPress} title="Login" />
+        </View>
+        {loading ? (
+          <View style={styles.loading} pointerEvents="none">
+            <ActivityIndicator size="large" color="#FF8000" />
+          </View>
+        ) : null}
+      </View>
 
-        <View style={styles.footer}>
-          <Image
-            source={require('../assets/images/footer.png')}
-            style={styles.footerAlign}
-          />
-        </View>
+      <View style={{...styles.footer}}>
+        <Image
+          source={require('../assets/images/footer.png')}
+          style={styles.footerAlign}
+        />
       </View>
     </View>
   );

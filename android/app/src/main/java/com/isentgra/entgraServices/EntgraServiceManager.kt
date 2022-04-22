@@ -95,14 +95,14 @@ class EntgraServiceManager(reactContext : ReactApplicationContext) : ReactContex
     fun enrollDevice( promise : Promise) {
         try {
              // https://gw.entgra.net
-            // https://localhost:9443/
             var server = Server("http://10.0.2.2:8280", ctx)
             server.enroll("admin", "admin") {
                 //  Log.i(TAG, "$it.code  , $it.message")
             }
             promise.resolve("Successfully enrolled device");
-        } catch (e: Exception) {
-            // Log.i(TAG, "$e.httpResponse.message, $e.httpResponse.code")
+        } catch (e: NetworkAccessException) {
+            promise.reject("Network Error",e);
+        } catch (e : Exception) {
             promise.reject("Error in enrolling device",e);
         }
     }

@@ -24,8 +24,9 @@ const styles = StyleSheet.create({
   },
 
   button: {
-    marginLeft: '35%',
-    width: '30%',
+    alignContent : 'center',
+    // marginLeft: '35%',
+    width: '40%',
     marginVertical: 5,
   },
 
@@ -78,11 +79,26 @@ const styles = StyleSheet.create({
     maxWidth: 100,
   },
 
+  loginScreenImage: {
+    borderRadius: 30,
+    height: '62%',
+    resizeMode: 'contain',
+    maxWidth : '90%'
+  },
+
+  loadingScreenImage: {
+    borderRadius: 30,
+    // height: '40%',
+    resizeMode: 'contain',
+    width: '95%',
+  },
+
   image: {
     borderRadius: 30,
-    height: '60%',
+    height: '40%',
     resizeMode: 'contain',
-    width: '85%',
+    // width: '85%',
+    marginBottom: 10,
   },
 
   imageAlign: {
@@ -113,6 +129,15 @@ const styles = StyleSheet.create({
     textAlign: 'center',
   },
 
+  heading: {
+    color: '#f47421',
+    fontSize: 25,
+    fontWeight: 'bold',
+    justifyContent: 'center',
+    textAlign: 'center',
+    marginBottom : 15
+  },
+
   text: {
     backgroundColor: '#f47421',
     borderBottomColor: '#e2e2e2',
@@ -128,11 +153,12 @@ const styles = StyleSheet.create({
     borderBottomColor: '#e2e2e2',
     borderBottomWidth: 2,
     color: 'white',
+    width: '100%',
     fontSize: 25,
     justifyContent: 'center',
     textAlign: 'center',
-    paddingVertical: 5,
-    marginVertical : 10,
+    marginVertical: 10,
+    padding: 5,
   },
 
   textStyle: {
@@ -151,6 +177,7 @@ const styles = StyleSheet.create({
   },
   container: {
     backgroundColor: '#0000',
+    alignItems: 'center',
   },
 });
 

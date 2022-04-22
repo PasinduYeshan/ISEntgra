@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useEffect, useState} from 'react';
 import {
   ActivityIndicator,
   Button,
@@ -9,57 +9,55 @@ import {
 } from 'react-native';
 import {styles} from '../theme/styles';
 
+import {enrollDevice} from '../services/entgraService';
+
 const ConsentScreen = () => {
+  const [loading, setLoading] = useState(false);
+
+  const handleSubmitPress = async () => {
+    setLoading(true);
+    enrollDevice().catch(e => {
+      console.log(e);
+      setLoading(false);
+    });
+    setLoading(false);
+  };
+
   return (
     <>
-      <View style={styles.mainBody}>
-        <View>
-          <View style={styles.container}>
-            <View>
-              <Text style={styles.text}>Disclaimer</Text>
-            </View>
-            <View style={styles.imageAlign}>
-              <Image
-                source={require('../assets/images/login.jpg')}
-                style={styles.image}
-              />
-              {/* <Text style={styles.textpara}>
-              Sample demo to showcase authentication for a React Native via the
-              OpenID Connect Authorization Code flow, which is integrated using
-              the{' '}
-              <Text
-                style={styles.textStyle}
-                onPress={() =>
-                  Linking.openURL(
-                    'https://github.com/asgardeo/asgardeo-react-native-oidc-sdk',
-                  )
-                }>
-                Asgardeo Auth React Native SDK
-              </Text>
-              .
-            </Text> */}
-            </View>
-            <View style={styles.button}>
-              <Button
-                color="#282c34"
-                onPress={() => {}}
-                title="Login"
-              />
-            </View>
-            {/* {loading ? (
-              <View style={styles.loading} pointerEvents="none">
-                <ActivityIndicator size="large" color="#FF8000" />
-              </View>
-            ) : null} */}
-          </View>
-
-          <View style={styles.footer}>
-            <Image
-              source={require('../assets/images/footer.png')}
-              style={styles.footerAlign}
-            />
-          </View>
+      <View
+        style={{
+          ...styles.mainBody,
+          flex: 1,
+          justifyContent: 'space-around',
+          alignItems: 'center',
+        }}>
+        <View style={{alignItems: 'center'}}>
+          <Image
+            source={require('../assets/images/wso2-logo.png')}
+            style={styles.image}
+          />
+          <Text style={styles.heading}>Disclaimer</Text>
+          <Text style={styles.textpara}>
+            We may send your device information to Entgra IoT Server to assess
+            your device's security level and to provide you with the best
+            services. All data sent to Entgra IoT Server is only accessible to
+            the authorized users and can be permanently removed if needed.
+          </Text>
         </View>
+        <View
+          style={{...styles.button, marginBottom: 10, alignItems: 'center'}}>
+          <Button
+            color="#282c34"
+            onPress={handleSubmitPress}
+            title="Continue"
+          />
+        </View>
+        {loading ? (
+          <View style={styles.loading} pointerEvents="none">
+            <ActivityIndicator size="large" color="#FF8000" />
+          </View>
+        ) : null}
       </View>
     </>
   );

@@ -6,20 +6,53 @@ const {EntgraServiceManager} = NativeModules;
 interface IEntgraServiceManager {
   getDeviceAttributes(): Promise<any>;
   getDeviceID(): Promise<string>;
-  enrollDevice(): Promise<void>;
+  enrollDevice(): Promise<string>;
 }
 
-// Get Device Attributes from Native Entgra Module
+/**
+ * This method returns a Promise that resolves with the device attributes,
+ * fetched form the native module
+ * @example
+ * ```
+ * getDeviceAttributes().then((response) => {
+ *     console.log(response);
+ * }).catch((error) => {
+ *     console.error(error);
+ * });
+ * ```
+ */
 export async function getDeviceAttributes(): Promise<any> {
   return await EntgraServiceManager.getDeviceAttributes();
 }
 
-// Get DeviceID from Native Entgra Module
+/**
+ * This method returns a Promise that resolves with the device identifier,
+ * fetched form the native module
+ * @example
+ * ```
+ * getDeviceID().then((response) => {
+ *     console.log(response);
+ * }).catch((error) => {
+ *     console.error(error);
+ * });
+ * ```
+ */
 export async function getDeviceID(): Promise<string> {
   return await EntgraServiceManager.getDeviceID();
 }
 
-export async function enrollDevice(): Promise<void> {
+/**
+ * This method returns a Promise that resolves with the success message
+ * @example
+ * ```
+ * enrollDevice().then((response) => {
+ *     console.log(response);
+ * }).catch((error) => {
+ *     console.error(error);
+ * });
+ * ```
+ */
+export async function enrollDevice(): Promise<string> {
   return await EntgraServiceManager.enrollDevice();
 }
 
