@@ -10,7 +10,7 @@
     "lint": "eslint . --ext .js,.jsx,.ts,.tsx"
   },
   "dependencies": {
-    "@asgardeo/auth-react-native": "file:./modules/asgardeo-auth-react-native/asgardeo-auth-react-native-0.0.1.tgz",
+    "@asgardeo/auth-react-native": "file:./asgardeo-react-native-sdk/asgardeo-auth-react-native-0.0.1.tgz",
     "@react-native-async-storage/async-storage": "^1.17.0",
     "@react-navigation/native": "^6.0.8",
     "@react-navigation/stack": "^6.1.1",

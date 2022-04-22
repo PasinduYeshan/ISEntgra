@@ -1,6 +1,7 @@
 package com.isentgra.entgraServices;
 
 import android.content.Intent
+import android.util.Log
 import com.facebook.react.bridge.ReactApplicationContext
 import com.facebook.react.bridge.ReactContextBaseJavaModule
 import com.facebook.react.bridge.ReactMethod
@@ -23,6 +24,7 @@ import io.entgra.device.mgt.sdk.info.DeviceInfo
 class EntgraServiceManager(reactContext : ReactApplicationContext) : ReactContextBaseJavaModule(reactContext) {
     // Context for Entgra Device managment sdk
     var ctx : Context = reactContext;
+    // private static final String TAG = "MyActivity";
     
     
     override fun getName(): String {
@@ -57,6 +59,18 @@ class EntgraServiceManager(reactContext : ReactApplicationContext) : ReactContex
         return deviceId;
     }
 
+    // Enroll device in Entgra IoT server
+    // fun enrollDeviceEntgra ()  {
+    //     try {
+    //         // https://gw.entgra.net
+    //         // https://localhost:9443/
+    //         var server = Server("https://localhost:9443", ctx)
+    //         server.enroll("admin", "admin") {
+    //         }
+    //     } catch (e: NetworkAccessException) {
+    //     }
+    // }
+
     @ReactMethod
     fun getDeviceAttributes(  promise : Promise) {
         try {
@@ -74,6 +88,22 @@ class EntgraServiceManager(reactContext : ReactApplicationContext) : ReactContex
             promise.resolve(result);
         } catch (e: Exception) {
             promise.reject("Entgra Device Id error : ",e);
+        }
+    }
+
+    @ReactMethod
+    fun enrollDevice( promise : Promise) {
+        try {
+             // https://gw.entgra.net
+            // https://localhost:9443/
+            var server = Server("http://10.0.2.2:8280", ctx)
+            server.enroll("admin", "admin") {
+                //  Log.i(TAG, "$it.code  , $it.message")
+            }
+            promise.resolve("Successfully enrolled device");
+        } catch (e: Exception) {
+            // Log.i(TAG, "$e.httpResponse.message, $e.httpResponse.code")
+            promise.reject("Error in enrolling device",e);
         }
     }
 

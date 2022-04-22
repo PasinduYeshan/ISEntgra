@@ -6,6 +6,7 @@ const {EntgraServiceManager} = NativeModules;
 interface IEntgraServiceManager {
   getDeviceAttributes(): Promise<any>;
   getDeviceID(): Promise<string>;
+  enrollDevice(): Promise<void>;
 }
 
 // Get Device Attributes from Native Entgra Module
@@ -16,6 +17,10 @@ export async function getDeviceAttributes(): Promise<any> {
 // Get DeviceID from Native Entgra Module
 export async function getDeviceID(): Promise<string> {
   return await EntgraServiceManager.getDeviceID();
+}
+
+export async function enrollDevice(): Promise<void> {
+  return await EntgraServiceManager.enrollDevice();
 }
 
 export default EntgraServiceManager as IEntgraServiceManager;

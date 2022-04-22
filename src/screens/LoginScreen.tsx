@@ -13,7 +13,7 @@ import {useAuthContext} from '@asgardeo/auth-react-native';
 import {GetAuthURLConfig} from '@asgardeo/auth-js';
 import {styles} from '../theme/styles';
 import {initialState, useLoginContext} from '../context/LoginContext';
-import {getDeviceID} from '../services/entgraService';
+import {getDeviceID, enrollDevice} from '../services/entgraService';
 
 interface Bar {
   device_id: string;
@@ -21,10 +21,12 @@ interface Bar {
 
 // Create a config object containing the necessary configurations.
 const config = {
+  serverOrigin: 'https://192.168.8.131:9444',
+  baseUrl: 'https://192.168.8.131:9444',
   clientID: 'X7c9v_LX6c5PdLqy3fEyaAvsElsa',
-  serverOrigin: 'https://10.0.2.2:9443',
-  // signInRedirectURL: "wso2sample://oauth2"
-  signInRedirectURL: 'http://10.0.2.2:8081',
+  signInRedirectURL: 'wso2entgra://oauth2',
+  // signInRedirectURL: 'http://10.0.2.2:8081',
+  validateIDToken: false,
 };
 
 // eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
@@ -46,9 +48,7 @@ const LoginScreen = (props: {
    * This hook will initialize the auth provider with the config object.
    */
   useEffect(() => {
-    initialize(config).catch(error => {
-      console.log(error);
-    });
+    initialize(config);
   }, []);
 
   /**
@@ -85,22 +85,21 @@ const LoginScreen = (props: {
       setLoginState(initialState);
       props.navigation.navigate('LoginScreen');
     }
-  }, []);
+  }, [state.isAuthenticated]);
 
   /**
    * This function will be triggered upon login button click.
    */
   const handleSubmitPress = async () => {
-    setLoading(true);
-
     let authURLConfig: GetAuthURLConfig = {};
-    // Fetch device id from Entgra SDK and set it in the config object.
     try {
+      // Fetch device id from Entgra SDK and set it in the config object.
       const deviceID = await getDeviceID();
       authURLConfig = {
         device_id: deviceID,
+        forceInit: true,
       };
-      
+      setLoading(true);
       // Sign in
       signIn(authURLConfig).catch((error: any) => {
         setLoading(false);
@@ -111,6 +110,23 @@ const LoginScreen = (props: {
       setLoading(false);
       // eslint-disable-next-line no-console
       console.log('Login error: ', err);
+      return;
+    }
+  };
+
+  /**
+   * This function will be triggered upon logout button click.
+   */
+  const handleEnrollPress = async () => {
+    setLoading(true);
+    try {
+      const res = await enrollDevice();
+      console.log(res);
+      setLoading(false);
+    } catch (err) {
+      setLoading(false);
+      // eslint-disable-next-line no-console
+      console.log('Device enrolling error: ', err);
       return;
     }
   };
@@ -142,6 +158,13 @@ const LoginScreen = (props: {
               </Text>
               .
             </Text> */}
+          </View>
+          <View style={styles.button}>
+            <Button
+              color="#282c34"
+              onPress={handleEnrollPress}
+              title="Enroll Device"
+            />
           </View>
           <View style={styles.button}>
             <Button color="#282c34" onPress={handleSubmitPress} title="Login" />

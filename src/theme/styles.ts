@@ -26,6 +26,7 @@ const styles = StyleSheet.create({
   button: {
     marginLeft: '35%',
     width: '30%',
+    marginVertical: 5,
   },
 
   deco: {
@@ -35,9 +36,11 @@ const styles = StyleSheet.create({
   },
 
   flex: {
-    backgroundColor: '#e2e2e2',
+    // backgroundColor: '#e2e2e2',
     borderColor: '#c5c5c5',
     borderWidth: 1,
+    backgroundColor : 'black',
+    
   },
 
   flexBody: {
@@ -49,6 +52,7 @@ const styles = StyleSheet.create({
     flex: 1,
     flexDirection: 'column',
     paddingBottom: 70,
+    color: 'black',
   },
 
   flexDetails: {
@@ -60,16 +64,18 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
     marginTop: 10,
     textAlign: 'center',
+    
   },
 
   footer: {
     alignItems: 'center',
     paddingTop: 45,
+    height : 40,
   },
 
   footerAlign: {
-    height: 20,
-    width: 50,
+    maxHeight: 40,
+    maxWidth: 100,
   },
 
   image: {
