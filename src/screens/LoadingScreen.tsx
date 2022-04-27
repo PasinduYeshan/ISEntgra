@@ -1,10 +1,6 @@
 import React, {useEffect, useState} from 'react';
 import {
-  ActivityIndicator,
-  Button,
   Image,
-  Linking,
-  Text,
   View,
 } from 'react-native';
 import {styles} from '../theme/styles';

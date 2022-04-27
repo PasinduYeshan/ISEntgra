@@ -11,7 +11,9 @@ import {styles} from '../theme/styles';
 
 import {enrollDevice} from '../services/entgraService';
 
-const ConsentScreen = () => {
+const ConsentScreen = (props: {
+  navigation: {navigate: (args0: string) => void};
+}) => {
   const [loading, setLoading] = useState(false);
 
   const handleSubmitPress = async () => {
@@ -20,6 +22,8 @@ const ConsentScreen = () => {
       console.log(e);
       setLoading(false);
     });
+    console.log("Enrolled Successfully!");
+    props.navigation.navigate('LoginScreen');
     setLoading(false);
   };
 

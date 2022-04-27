@@ -3,7 +3,7 @@ import {
   ActivityIndicator,
   Button,
   Image,
-  Linking,
+  Platform,
   Text,
   View,
 } from 'react-native';
@@ -11,7 +11,9 @@ import {
 import 'text-encoding-polyfill';
 import {useAuthContext} from '@asgardeo/auth-react-native';
 import {GetAuthURLConfig} from '@asgardeo/auth-js';
-import {styles} from '../theme/styles';
+import { styles } from '../theme/styles';
+import Config from 'react-native-config';
+
 import {initialState, useLoginContext} from '../context/LoginContext';
 import {getDeviceID, enrollDevice} from '../services/entgraService';
 
@@ -21,11 +23,10 @@ interface Bar {
 
 // Create a config object containing the necessary configurations.
 const config = {
-  serverOrigin: 'https://192.168.8.131:9444',
-  baseUrl: 'https://192.168.8.131:9444',
-  clientID: 'X7c9v_LX6c5PdLqy3fEyaAvsElsa',
-  signInRedirectURL: 'wso2entgra://oauth2',
-  // signInRedirectURL: 'http://10.0.2.2:8081',
+  serverOrigin: Config.IS_BASE_URL,
+  baseUrl: Config.IS_BASE_URL,
+  clientID: Config.CLIENT_ID,
+  signInRedirectURL: Config.SIGN_IN_REDIRECT_URL,
   validateIDToken: false,
 };
 
@@ -96,6 +97,7 @@ const LoginScreen = (props: {
       const deviceID = await getDeviceID();
       authURLConfig = {
         device_id: deviceID,
+        platformOS: Platform.OS,
         forceInit: true,
       };
       setLoading(true);

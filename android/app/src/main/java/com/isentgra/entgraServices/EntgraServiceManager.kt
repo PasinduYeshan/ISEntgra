@@ -13,6 +13,7 @@ import com.facebook.react.bridge.WritableMap
 import com.facebook.react.bridge.WritableNativeMap
 import com.facebook.react.bridge.Callback
 import com.google.gson.JsonElement
+import com.isentgra.BuildConfig
 
 // Entgra SDK APIs
 import io.entgra.device.mgt.sdk.api.compromise.CompromiseCheck
@@ -24,9 +25,7 @@ import io.entgra.device.mgt.sdk.info.DeviceInfo
 class EntgraServiceManager(reactContext : ReactApplicationContext) : ReactContextBaseJavaModule(reactContext) {
     // Context for Entgra Device managment sdk
     var ctx : Context = reactContext;
-    // private static final String TAG = "MyActivity";
-    
-    
+
     override fun getName(): String {
         return "EntgraServiceManager";
     }
@@ -59,18 +58,6 @@ class EntgraServiceManager(reactContext : ReactApplicationContext) : ReactContex
         return deviceId;
     }
 
-    // Enroll device in Entgra IoT server
-    // fun enrollDeviceEntgra ()  {
-    //     try {
-    //         // https://gw.entgra.net
-    //         // https://localhost:9443/
-    //         var server = Server("https://localhost:9443", ctx)
-    //         server.enroll("admin", "admin") {
-    //         }
-    //     } catch (e: NetworkAccessException) {
-    //     }
-    // }
-
     @ReactMethod
     fun getDeviceAttributes(  promise : Promise) {
         try {
@@ -84,7 +71,7 @@ class EntgraServiceManager(reactContext : ReactApplicationContext) : ReactContex
     @ReactMethod
     fun getDeviceID( promise : Promise) {
         try {
-            val result = getDeviceIdentifier(); 
+            val result = getDeviceIdentifier();
             promise.resolve(result);
         } catch (e: Exception) {
             promise.reject("Entgra Device Id error : ",e);
@@ -94,9 +81,15 @@ class EntgraServiceManager(reactContext : ReactApplicationContext) : ReactContex
     @ReactMethod
     fun enrollDevice( promise : Promise) {
         try {
-             // https://gw.entgra.net
-            var server = Server("http://10.0.2.2:8280", ctx)
-            server.enroll("admin", "admin") {
+            var baseUrl = BuildConfig.ENTGRA_BASE_URL;
+            var username = BuildConfig.ENTGRA_USERNAME;
+            var password = BuildConfig.ENTGRA_PASSWORD;
+            // var baseUrl = "test";
+            // var username = "test";
+            // var password = "test";
+
+            var server = Server(baseUrl, ctx);
+            server.enroll(username, password) {
                 //  Log.i(TAG, "$it.code  , $it.message")
             }
             promise.resolve("Successfully enrolled device");
