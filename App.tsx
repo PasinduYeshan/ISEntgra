@@ -20,7 +20,7 @@ const App = () => {
     <AuthProvider>
       <LoginContextProvider>
         <NavigationContainer>
-          <Stack.Navigator initialRouteName={'ConsentScreen'}>
+          <Stack.Navigator initialRouteName={'LoadingScreen'}>
             <Stack.Screen
               name="DeviceAttributes"
               component={DeviceAttributesScreen}

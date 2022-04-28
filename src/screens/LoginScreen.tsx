@@ -7,19 +7,14 @@ import {
   Text,
   View,
 } from 'react-native';
-// TODO: Check usage
 import 'text-encoding-polyfill';
 import {useAuthContext} from '@asgardeo/auth-react-native';
 import {GetAuthURLConfig} from '@asgardeo/auth-js';
-import { styles } from '../theme/styles';
+import {styles} from '../theme/styles';
 import Config from 'react-native-config';
 
 import {initialState, useLoginContext} from '../context/LoginContext';
-import {getDeviceID, enrollDevice} from '../services/entgraService';
-
-interface Bar {
-  device_id: string;
-}
+import {getDeviceID, disenrollDevice, syncDevice} from '../services/entgraService';
 
 // Create a config object containing the necessary configurations.
 const config = {
@@ -75,7 +70,6 @@ const LoginScreen = (props: {
           props.navigation.navigate('HomeScreen');
         } catch (error) {
           setLoading(false);
-          // eslint-disable-next-line no-console
           console.log(error);
         }
       };
@@ -91,8 +85,12 @@ const LoginScreen = (props: {
    * This function will be triggered upon login button click.
    */
   const handleSubmitPress = async () => {
-    let authURLConfig: GetAuthURLConfig = {};
+    setLoading(true);
     try {
+      // Sync device information to Entgra Server
+      await syncDevice();
+
+      let authURLConfig: GetAuthURLConfig = {};
       // Fetch device id from Entgra SDK and set it in the config object.
       const deviceID = await getDeviceID();
       authURLConfig = {
@@ -100,13 +98,29 @@ const LoginScreen = (props: {
         platformOS: Platform.OS,
         forceInit: true,
       };
-      setLoading(true);
+      
       // Sign in
       signIn(authURLConfig).catch((error: any) => {
         setLoading(false);
-        // eslint-disable-next-line no-console
         console.log(error);
       });
+
+    } catch (err) {
+      setLoading(false);
+      console.log(err);
+      return;
+    }
+  };
+
+  /**
+   * This function will be triggered upon disenroll button click.
+   */
+  const handleDisenrollPressed = async () => {
+    try {
+      setLoading(true);
+      await disenrollDevice();
+      setLoading(false);
+      props.navigation.navigate('ConsentScreen');
     } catch (err) {
       setLoading(false);
       // eslint-disable-next-line no-console
@@ -116,8 +130,8 @@ const LoginScreen = (props: {
   };
 
   return (
-    <View style={{...styles.mainBody, justifyContent : 'space-between'}}>
-      <View style={{...styles.container, justifyContent : 'space-between' }}>
+    <View style={{...styles.mainBody, justifyContent: 'space-between'}}>
+      <View style={{...styles.container, justifyContent: 'space-between'}}>
         <View style={{width: '90%'}}>
           <Text numberOfLines={1} adjustsFontSizeToFit style={styles.topicText}>
             IS Entgra React Native Sample
@@ -146,6 +160,13 @@ const LoginScreen = (props: {
         </View>
         <View style={styles.button}>
           <Button color="#282c34" onPress={handleSubmitPress} title="Login" />
+        </View>
+        <View style={{...styles.button, marginVertical: 10}}>
+          <Button
+            color="#282c34"
+            onPress={handleDisenrollPressed}
+            title="Disenroll"
+          />
         </View>
         {loading ? (
           <View style={styles.loading} pointerEvents="none">

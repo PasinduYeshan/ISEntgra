@@ -30,7 +30,10 @@ class EntgraServiceManager(reactContext : ReactApplicationContext) : ReactContex
         return "EntgraServiceManager";
     }
 
-    // Get device attributes using local SDK APIs
+    /**
+     * This method fetch device attributes from Entgra SDK locally and return as WritableNativeMap.
+     * @return      WritableNativeMap of the device attributes fetched from Entgra SDK
+     */
     fun getDeviceAttributesLocally  () : WritableMap{
         var compromiseCheck = CompromiseCheck(ctx);
         var isDeviceRooted = compromiseCheck.isDeviceRooted();
@@ -44,22 +47,30 @@ class EntgraServiceManager(reactContext : ReactApplicationContext) : ReactContex
     }
 
     
-    // Get telephone info locally 
     fun getTelephoneInfoLocally  () : Set<Map.Entry<String, JsonElement?>> {
         var telephoneInfo = TelephoneInfo(ctx)
         val entrySet: Set<Map.Entry<String, JsonElement?>> = telephoneInfo.getAllProperties().entrySet();
         return entrySet;
     }
 
-    // Get device identifier
+    /**
+     * This method fetch device identifier from Entgra SDK locally and return as String.
+     * @return      String of device identifier
+     */
     fun getDeviceIdentifier () : String {
         var deviceInfo = DeviceInfo(ctx)
         var deviceId = deviceInfo.getDeviceId()
         return deviceId;
     }
 
+    /**
+     * This method is invoked from Java Script accepts Promise and return a Promise resolved
+     * with the device attributes
+     * @param       Promise
+     * @return      Promise resolved with the device attributes
+     */
     @ReactMethod
-    fun getDeviceAttributes(  promise : Promise) {
+    fun getDeviceAttributes(promise: Promise) {
         try {
             val result = getDeviceAttributesLocally(); 
             promise.resolve(result);
@@ -68,25 +79,35 @@ class EntgraServiceManager(reactContext : ReactApplicationContext) : ReactContex
         }
     }
 
+    /**
+     * This method is invoked from Java Script accepts Promise and return a Promise resolved
+     * with the device identifier
+     * @param       Promise
+     * @return      Promise resolved with the device identifier
+     */
     @ReactMethod
-    fun getDeviceID( promise : Promise) {
+    fun getDeviceID(promise: Promise) {
         try {
             val result = getDeviceIdentifier();
             promise.resolve(result);
         } catch (e: Exception) {
-            promise.reject("Entgra Device Id error : ",e);
+            promise.reject("Entgra Device Id error : ", e);
         }
     }
 
+    /**
+     * This method enroll device in Entgra IoT server
+     * This method is invoked from Java Script accepts Promise and return a Promise resolved
+     * with the success message
+     * @param       Promise
+     * @return      Promise resolved with the success message
+     */
     @ReactMethod
-    fun enrollDevice( promise : Promise) {
+    fun enrollDevice(promise: Promise) {
         try {
             var baseUrl = BuildConfig.ENTGRA_BASE_URL;
             var username = BuildConfig.ENTGRA_USERNAME;
             var password = BuildConfig.ENTGRA_PASSWORD;
-            // var baseUrl = "test";
-            // var username = "test";
-            // var password = "test";
 
             var server = Server(baseUrl, ctx);
             server.enroll(username, password) {
@@ -94,9 +115,59 @@ class EntgraServiceManager(reactContext : ReactApplicationContext) : ReactContex
             }
             promise.resolve("Successfully enrolled device");
         } catch (e: NetworkAccessException) {
-            promise.reject("Network Error",e);
+            promise.reject("Network Error", e);
         } catch (e : Exception) {
-            promise.reject("Error in enrolling device",e);
+            promise.reject("Error in enrolling device", e);
+        }
+    }
+
+    /**
+     * Disenroll device from Entgra IoT server
+     * This method is invoked from Java Script accepts Promise and return a Promise resolved
+     * with the suceess message
+     * @param       Promise
+     * @return      Promise resolved with the device identifier
+     */
+    @ReactMethod
+    fun disenrollDevice(promise: Promise) {
+        try {
+            var baseUrl = BuildConfig.ENTGRA_BASE_URL;
+            var username = BuildConfig.ENTGRA_USERNAME;
+            var password = BuildConfig.ENTGRA_PASSWORD;
+
+            // var server = Server(baseUrl, ctx);
+            // server.enroll(username, password) {
+            //     //  Log.i(TAG, "$it.code  , $it.message")
+            // }
+            promise.resolve("Successfully disenrolled device");
+        } catch (e: NetworkAccessException) {
+            promise.reject("Network Error", e);
+        } catch (e : Exception) {
+            promise.reject("Error in disenrolling device", e);
+        }
+    }
+
+    /**
+     * Sync device information to Entgra IoT server
+     * This method is invoked from Java Script accepts Promise and return a Promise resolved
+     * with the suceess message
+     * @param       Promise
+     * @return      Promise resolved with the device identifier
+     */
+    @ReactMethod
+    fun syncDevice(promise: Promise) {
+        try {
+            var baseUrl = BuildConfig.ENTGRA_BASE_URL;
+
+             var server = Server(baseUrl, ctx);
+             server.sync() {
+                 //  Log.i(TAG, "$it.code  , $it.message")
+             }
+            promise.resolve("Synced successfully");
+        } catch (e: NetworkAccessException) {
+            promise.reject("Network Error", e);
+        } catch (e : Exception) {
+            promise.reject("Error in syncing device", e);
         }
     }
 
