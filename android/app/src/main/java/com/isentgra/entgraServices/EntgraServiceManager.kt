@@ -16,6 +16,8 @@ import com.google.gson.JsonElement
 import com.isentgra.BuildConfig
 
 // Entgra SDK APIs
+import io.entgra.device.mgt.sdk.api.Config
+import io.entgra.device.mgt.sdk.api.SDK
 import io.entgra.device.mgt.sdk.api.compromise.CompromiseCheck
 import io.entgra.device.mgt.sdk.api.http.Server
 import io.entgra.device.mgt.sdk.common.exception.NetworkAccessException
@@ -104,21 +106,28 @@ class EntgraServiceManager(reactContext : ReactApplicationContext) : ReactContex
      */
     @ReactMethod
     fun enrollDevice(promise: Promise) {
-        try {
             var baseUrl = BuildConfig.ENTGRA_BASE_URL;
-            var username = BuildConfig.ENTGRA_USERNAME;
-            var password = BuildConfig.ENTGRA_PASSWORD;
+            var clientKey = BuildConfig.ENTGRA_CLIENT_KEY;
+            var clientSecret = BuildConfig.ENTGRA_CLIENT_SECRET;
+            var callBackURL = BuildConfig.ENTGRA_CALLBACK_URL;
+            var mgtURL = BuildConfig.ENTGRA_MGT_URL;
 
-            var server = Server(baseUrl, ctx);
-            server.enroll(username, password) {
-                //  Log.i(TAG, "$it.code  , $it.message")
+            SDK(
+                Config.Builder(ctx)
+                    .verifyApps(true)
+                    .build()
+            ).refresh() {
+                try{
+                    var server = Server(baseUrl, ctx)
+                    server.enrollAuth(clientKey,clientSecret,callBackURL, mgtURL) {
+                        // Log.i(TAG, "$it.code  , $it.message")
+                    }
+                } catch (e: NetworkAccessException) {
+                    promise.reject("Network Error", e);
+                } catch (error: Exception) {
+                    promise.reject("Entgra Device Enrollment error : ", error);
+                }
             }
-            promise.resolve("Successfully enrolled device");
-        } catch (e: NetworkAccessException) {
-            promise.reject("Network Error", e);
-        } catch (e : Exception) {
-            promise.reject("Error in enrolling device", e);
-        }
     }
 
     /**
@@ -131,10 +140,7 @@ class EntgraServiceManager(reactContext : ReactApplicationContext) : ReactContex
     @ReactMethod
     fun disenrollDevice(promise: Promise) {
         try {
-            var baseUrl = BuildConfig.ENTGRA_BASE_URL;
-            var username = BuildConfig.ENTGRA_USERNAME;
-            var password = BuildConfig.ENTGRA_PASSWORD;
-
+            // var baseUrl = BuildConfig.ENTGRA_BASE_URL;
             // var server = Server(baseUrl, ctx);
             // server.enroll(username, password) {
             //     //  Log.i(TAG, "$it.code  , $it.message")
@@ -159,10 +165,18 @@ class EntgraServiceManager(reactContext : ReactApplicationContext) : ReactContex
         try {
             var baseUrl = BuildConfig.ENTGRA_BASE_URL;
 
-             var server = Server(baseUrl, ctx);
-             server.sync() {
-                 //  Log.i(TAG, "$it.code  , $it.message")
-             }
+            SDK(
+                Config.Builder(ctx)
+                    .verifyApps(true)
+                    .build()
+            ).refresh() {
+                var server = Server(baseUrl, ctx);
+                server.sync() {
+                    //  Log.i(TAG, "$it.code  , $it.message")
+                }
+            }
+
+             
             promise.resolve("Synced successfully");
         } catch (e: NetworkAccessException) {
             promise.reject("Network Error", e);
