@@ -22,8 +22,7 @@ const ConsentScreen = (props: {
       console.log(e);
       setLoading(false);
     });
-    console.log("Enrolled Successfully!");
-    props.navigation.navigate('LoginScreen');
+    // props.navigation.navigate('LoginScreen');
     setLoading(false);
   };
 

@@ -25,8 +25,12 @@ import io.entgra.device.mgt.sdk.info.TelephoneInfo
 import io.entgra.device.mgt.sdk.info.DeviceInfo
 
 class EntgraServiceManager(reactContext : ReactApplicationContext) : ReactContextBaseJavaModule(reactContext) {
-    // Context for Entgra Device managment sdk
-    var ctx : Context = reactContext;
+    /*
+    * Context for Entgra Device managment sdk
+    * Context should be the current Acitivity Context not the React Context
+    * Otherwise it will not open window surface
+     */
+    // var context : Context ;
 
     override fun getName(): String {
         return "EntgraServiceManager";
@@ -37,7 +41,7 @@ class EntgraServiceManager(reactContext : ReactApplicationContext) : ReactContex
      * @return      WritableNativeMap of the device attributes fetched from Entgra SDK
      */
     fun getDeviceAttributesLocally  () : WritableMap{
-        var compromiseCheck = CompromiseCheck(ctx);
+        var compromiseCheck = CompromiseCheck(getCurrentActivity() as Context);
         var isDeviceRooted = compromiseCheck.isDeviceRooted();
         var isDevModeEnabled = compromiseCheck.isDevModeEnabled();
         var isADBEnabled = compromiseCheck.isADBEnabled();
@@ -50,7 +54,7 @@ class EntgraServiceManager(reactContext : ReactApplicationContext) : ReactContex
 
     
     fun getTelephoneInfoLocally  () : Set<Map.Entry<String, JsonElement?>> {
-        var telephoneInfo = TelephoneInfo(ctx)
+        var telephoneInfo = TelephoneInfo(getCurrentActivity() as Context)
         val entrySet: Set<Map.Entry<String, JsonElement?>> = telephoneInfo.getAllProperties().entrySet();
         return entrySet;
     }
@@ -60,7 +64,7 @@ class EntgraServiceManager(reactContext : ReactApplicationContext) : ReactContex
      * @return      String of device identifier
      */
     fun getDeviceIdentifier () : String {
-        var deviceInfo = DeviceInfo(ctx)
+        var deviceInfo = DeviceInfo(getCurrentActivity() as Context)
         var deviceId = deviceInfo.getDeviceId()
         return deviceId;
     }
@@ -106,28 +110,29 @@ class EntgraServiceManager(reactContext : ReactApplicationContext) : ReactContex
      */
     @ReactMethod
     fun enrollDevice(promise: Promise) {
-            var baseUrl = BuildConfig.ENTGRA_BASE_URL;
-            var clientKey = BuildConfig.ENTGRA_CLIENT_KEY;
-            var clientSecret = BuildConfig.ENTGRA_CLIENT_SECRET;
-            var callBackURL = BuildConfig.ENTGRA_CALLBACK_URL;
-            var mgtURL = BuildConfig.ENTGRA_MGT_URL;
-
-            SDK(
-                Config.Builder(ctx)
-                    .verifyApps(true)
-                    .build()
-            ).refresh() {
-                try{
-                    var server = Server(baseUrl, ctx)
-                    server.enrollAuth(clientKey,clientSecret,callBackURL, mgtURL) {
-                        // Log.i(TAG, "$it.code  , $it.message")
-                    }
-                } catch (e: NetworkAccessException) {
-                    promise.reject("Network Error", e);
-                } catch (error: Exception) {
-                    promise.reject("Entgra Device Enrollment error : ", error);
+        var baseUrl = BuildConfig.ENTGRA_BASE_URL;
+        var clientKey = BuildConfig.ENTGRA_CLIENT_KEY;
+        var clientSecret = BuildConfig.ENTGRA_CLIENT_SECRET;
+        var callBackURL = BuildConfig.ENTGRA_CALLBACK_URL;
+        var mgtURL = BuildConfig.ENTGRA_MGT_URL;
+        SDK(
+            Config.Builder(getCurrentActivity() as Context)
+                .verifyApps(true)
+                .build()
+        ).refresh() {
+            try{
+                var server = Server(baseUrl, getCurrentActivity() as Context)
+                server.enrollAuth(clientKey,clientSecret,callBackURL, mgtURL) {
+                    // Log.i(TAG, "$it.code  , $it.message")
+                    promise.resolve("Enrolled Successfully");
                 }
+                
+            } catch (e: NetworkAccessException) {
+                promise.reject("Network Error", e);
+            } catch (error: Exception) {
+                promise.reject("Entgra Device Enrollment error : ", error);
             }
+        }
     }
 
     /**
@@ -141,7 +146,7 @@ class EntgraServiceManager(reactContext : ReactApplicationContext) : ReactContex
     fun disenrollDevice(promise: Promise) {
         try {
             // var baseUrl = BuildConfig.ENTGRA_BASE_URL;
-            // var server = Server(baseUrl, ctx);
+            // var server = Server(baseUrl, getCurrentActivity() as Context);
             // server.enroll(username, password) {
             //     //  Log.i(TAG, "$it.code  , $it.message")
             // }
@@ -162,26 +167,22 @@ class EntgraServiceManager(reactContext : ReactApplicationContext) : ReactContex
      */
     @ReactMethod
     fun syncDevice(promise: Promise) {
-        try {
-            var baseUrl = BuildConfig.ENTGRA_BASE_URL;
-
-            SDK(
-                Config.Builder(ctx)
-                    .verifyApps(true)
-                    .build()
-            ).refresh() {
-                var server = Server(baseUrl, ctx);
+        var baseUrl = BuildConfig.ENTGRA_BASE_URL;
+        SDK(
+            Config.Builder(getCurrentActivity() as Context)
+                .verifyApps(true)
+                .build()
+        ).refresh() {
+            try {
+                var server = Server(baseUrl, getCurrentActivity() as Context);
                 server.sync() {
-                    //  Log.i(TAG, "$it.code  , $it.message")
+                        promise.resolve("Synced successfully");
                 }
+            } catch (e: NetworkAccessException) {
+                promise.reject("Network Error", e);
+            } catch (e : Exception) {
+                promise.reject("Error in syncing device", e);
             }
-
-             
-            promise.resolve("Synced successfully");
-        } catch (e: NetworkAccessException) {
-            promise.reject("Network Error", e);
-        } catch (e : Exception) {
-            promise.reject("Error in syncing device", e);
         }
     }
 

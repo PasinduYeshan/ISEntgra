@@ -1,7 +1,7 @@
 import {NativeModules} from 'react-native';
 import {storeString} from '../utils/Storage';
 // Get Entgra Services from Native Modules and export
-const {EntgraServiceManager} = NativeModules;
+const EntgraServiceManager: IEntgraServiceManager = NativeModules.EntgraServiceManager;
 
 interface IEntgraServiceManager {
   getDeviceAttributes(): Promise<any>;
@@ -57,7 +57,8 @@ export async function getDeviceID(): Promise<string> {
  */
 export async function enrollDevice(): Promise<string> {
   try {
-    await EntgraServiceManager.enrollDevice();
+    const res = await EntgraServiceManager.enrollDevice();
+    console.log("This is response",res);
     await storeString('enrolledState', 'true');
     return 'Successfully enrolled device';
   } catch (error) {
