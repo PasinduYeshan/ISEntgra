@@ -13,7 +13,7 @@ import LoginScreen from './src/screens/LoginScreen';
 import ConsentScreen from './src/screens/ConsentScreen';
 import LoadingScreen from './src/screens/LoadingScreen';
 
-// eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
+
 const App = () => {
   const Stack = createStackNavigator();
   return (

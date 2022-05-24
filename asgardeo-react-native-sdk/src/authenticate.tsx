@@ -32,7 +32,7 @@ import { AsgardeoAuthException } from "@asgardeo/auth-js/src/exception";
 import React, { FunctionComponent, useContext, useEffect, useState } from "react";
 import { Linking } from "react-native";
 import { ReactNativeCryptoUtils } from "./crypto-utils";
-import { AuthContextInterface, AuthStateInterface, AuthUrl } from "./models";
+import { AuthContextInterface, AuthStateInterface, AuthUrl, AuthResponseErrorCode } from "./models";
 import { LocalStorage } from "./store";
 
 const initialState: AuthStateInterface = {
@@ -42,7 +42,8 @@ const initialState: AuthStateInterface = {
     isAuthenticated: false,
     refreshToken: "",
     scope: "",
-    tokenType: ""
+    tokenType: "",
+    authResponseError: {}
 };
 
 // Instantiate the auth client object.
@@ -54,7 +55,7 @@ const AuthClient = new AsgardeoAuthClient(store, cryptoUtils);
 const AuthContext = React.createContext<AuthContextInterface>(null);
 
 const AuthProvider: FunctionComponent = (
-    props: { children: boolean | React.ReactChild | React.ReactFragment | React.ReactPortal }
+    props: { children: boolean | React.ReactChild | React.ReactFragment | React.ReactPortal | JSX.Element }
 ) => {
     const [ state, setState ] = useState(initialState);
 
@@ -62,10 +63,11 @@ const AuthProvider: FunctionComponent = (
      * This hook will register the url listener.
      */
     useEffect(() => {
-        Linking.addEventListener("url", handleAuthRedirect);
+        const subscription = Linking.addEventListener("url", handleAuthRedirect);
 
         return () => {
-            Linking.removeEventListener("url", handleAuthRedirect);
+            // Linking.removeEventListener("url", handleAuthRedirect);
+            subscription.remove();
         };
     }, []);
 
@@ -139,8 +141,6 @@ const AuthProvider: FunctionComponent = (
             .catch((error) => {
                 throw new AsgardeoAuthException(
                     "AUTHENTICATE-SI-IV01",
-                    "authenticate",
-                    "signIn",
                     "Failed to retrieve authorization url",
                     error
                 );
@@ -246,8 +246,6 @@ const AuthProvider: FunctionComponent = (
             .catch((error) => {
                 throw new AsgardeoAuthException(
                     "AUTHENTICATE-SO-IV01",
-                    "authenticate",
-                    "signOut",
                     "Failed to retrieve signout url",
                     error
                 );
@@ -385,9 +383,9 @@ const AuthProvider: FunctionComponent = (
      * ```
      */
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
-    const getPKCECode = async (): Promise<string> => {
+    const getPKCECode = async (state: string): Promise<string> => {
 
-        return await AuthClient.getPKCECode();
+        return await AuthClient.getPKCECode(state);
     };
 
     /**
@@ -402,9 +400,9 @@ const AuthProvider: FunctionComponent = (
      * ```
      */
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
-    const setPKCECode = async (pkce: string): Promise<void> => {
+    const setPKCECode = async (pkce: string, state: string): Promise<void> => {
 
-        return await AuthClient.setPKCECode(pkce);
+        return await AuthClient.setPKCECode(pkce, state);
     };
 
     /**
@@ -487,6 +485,7 @@ const AuthProvider: FunctionComponent = (
      * @return  {Promise<void>}
      */
     const handleAuthRedirect = async (authUrl: AuthUrl): Promise<void> => {
+        console.log(authUrl);
         try {
             if (url.parse(authUrl?.url)?.query.indexOf("code=") > -1) {
                 await requestAccessTokenDetails(authUrl);
@@ -500,24 +499,30 @@ const AuthProvider: FunctionComponent = (
                         await AuthClient.getDataLayer().removeTemporaryData();
                         await AuthClient.getDataLayer().removeSessionData();
                         setState(initialState);
-                    } catch(error) {
+                    } catch (error) {
                         throw new AsgardeoAuthException(
                             "AUTHENTICATE-HAR-IV01",
-                            "authenticate",
-                            "handleAuthRedirect",
                             "Error in signout",
                             error
                         );
                     }
                 }
+            } else if (url.parse(authUrl?.url)?.query.indexOf("error_description=") > -1) {
+                const dataList = url.parse(authUrl?.url)?.query.split("&");
+                const errorDescription = dataList[0].split("=")[1];
+                const errorCode = dataList[2].split("=")[1];
+                const errorMessage = errorDescription.split("+").join(" ");
+                
+                const error = { errorCode: errorCode as unknown as AuthResponseErrorCode, errorMessage };
+                setState({ ...state, authResponseError: error });
             } else {
+                    // TODO: Add logs when a logger is available.
+                    // Tracked here https://github.com/asgardeo/asgardeo-auth-js-sdk/issues/151.
+                }
+            } catch (error) {
                 // TODO: Add logs when a logger is available.
                 // Tracked here https://github.com/asgardeo/asgardeo-auth-js-sdk/issues/151.
             }
-        } catch (error) {
-            // TODO: Add logs when a logger is available.
-            // Tracked here https://github.com/asgardeo/asgardeo-auth-js-sdk/issues/151.
-        }
     };
 
     return (

@@ -6,9 +6,13 @@ import {
   Platform,
   Text,
   View,
+  Alert,
 } from 'react-native';
 import 'text-encoding-polyfill';
-import {useAuthContext} from '@asgardeo/auth-react-native';
+import {
+  useAuthContext,
+  AuthResponseErrorCode,
+} from '@asgardeo/auth-react-native';
 import {GetAuthURLConfig} from '@asgardeo/auth-js';
 import {styles} from '../theme/styles';
 import Config from 'react-native-config';
@@ -49,15 +53,43 @@ const LoginScreen = (props: {
    * This hook will initialize the auth provider with the config object.
    */
   useEffect(() => {
-    // wipeAll();
+    wipeAll();
     initialize(config);
   }, []);
+
+  /**
+   * This hook will listen for auth response error and proceed.
+   */
+  useEffect(() => {
+    if (state.authResponseError?.hasOwnProperty('errorCode')) {
+      setLoading(false);
+      Alert.alert('Error Occurred', state.authResponseError.errorMessage, [
+        {
+          text: 'OK',
+          onPress: () => {
+            if (
+              state.authResponseError?.errorCode ==
+              AuthResponseErrorCode.DEVICE_NOT_ENROLLED
+            ) {
+              setLoginState(initialState);
+
+              disenrollDevice().catch(err => {
+                console.log(err);
+              });
+              props.navigation.navigate('ConsentScreen');
+            } else {
+              setLoginState(initialState);
+            }
+          },
+        },
+      ]);
+    }
+  }, [state.authResponseError]);
 
   /**
    * This hook will listen for auth state updates and proceed.
    */
   useEffect(() => {
-    console.log(state);
     if (state?.isAuthenticated) {
       const getData = async () => {
         try {
