@@ -22,7 +22,7 @@ const ConsentScreen = (props: {
       console.log(e);
       setLoading(false);
     });
-    // props.navigation.navigate('LoginScreen');
+    props.navigation.navigate('LoginScreen');
     setLoading(false);
   };
 

@@ -124,9 +124,8 @@ class EntgraServiceManager(reactContext : ReactApplicationContext) : ReactContex
                 var server = Server(baseUrl, getCurrentActivity() as Context)
                 server.enrollAuth(clientKey,clientSecret,callBackURL, mgtURL) {
                     // Log.i(TAG, "$it.code  , $it.message")
-                    promise.resolve("Enrolled Successfully");
+                    promise.resolve("Enrolled Successfully");  
                 }
-                
             } catch (e: NetworkAccessException) {
                 promise.reject("Network Error", e);
             } catch (error: Exception) {
@@ -176,8 +175,9 @@ class EntgraServiceManager(reactContext : ReactApplicationContext) : ReactContex
             try {
                 var server = Server(baseUrl, getCurrentActivity() as Context);
                 server.sync() {
-                        promise.resolve("Synced successfully");
+                    promise.resolve("Synced successfully");
                 }
+                promise.resolve("Synced successfully");
             } catch (e: NetworkAccessException) {
                 promise.reject("Network Error", e);
             } catch (e : Exception) {

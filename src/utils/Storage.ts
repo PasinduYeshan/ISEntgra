@@ -42,5 +42,13 @@ const removeValue = async (key: string) => {
     }
 };
 
-export {storeString, storeObject, getStoredString, getStoredObject, removeValue};
+const wipeAll = async () => {
+  try {
+      await AsyncStorage.clear()
+  } catch (e) {
+    console.log(e);
+  }
+};
+
+export {storeString, storeObject, getStoredString, getStoredObject, removeValue, wipeAll};
 

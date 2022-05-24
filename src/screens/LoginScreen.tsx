@@ -14,7 +14,12 @@ import {styles} from '../theme/styles';
 import Config from 'react-native-config';
 
 import {initialState, useLoginContext} from '../context/LoginContext';
-import {getDeviceID, disenrollDevice, syncDevice} from '../services/entgraService';
+import {
+  getDeviceID,
+  disenrollDevice,
+  syncDevice,
+} from '../services/entgraService';
+import {wipeAll} from '../utils/Storage';
 
 // Create a config object containing the necessary configurations.
 const config = {
@@ -44,6 +49,7 @@ const LoginScreen = (props: {
    * This hook will initialize the auth provider with the config object.
    */
   useEffect(() => {
+    // wipeAll();
     initialize(config);
   }, []);
 
@@ -51,6 +57,7 @@ const LoginScreen = (props: {
    * This hook will listen for auth state updates and proceed.
    */
   useEffect(() => {
+    console.log(state);
     if (state?.isAuthenticated) {
       const getData = async () => {
         try {
@@ -98,13 +105,12 @@ const LoginScreen = (props: {
         platformOS: Platform.OS,
         forceInit: true,
       };
-      
       // Sign in
       signIn(authURLConfig).catch((error: any) => {
         setLoading(false);
         console.log(error);
       });
-
+      setLoading(false);
     } catch (err) {
       setLoading(false);
       console.log(err);
