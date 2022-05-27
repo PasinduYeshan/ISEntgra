@@ -485,7 +485,6 @@ const AuthProvider: FunctionComponent = (
      * @return  {Promise<void>}
      */
     const handleAuthRedirect = async (authUrl: AuthUrl): Promise<void> => {
-        console.log(authUrl);
         try {
             if (url.parse(authUrl?.url)?.query.indexOf("code=") > -1) {
                 await requestAccessTokenDetails(authUrl);
@@ -525,6 +524,13 @@ const AuthProvider: FunctionComponent = (
             }
     };
 
+    /**
+     * This method clear the authentication response errors from state
+     */
+    const clearAuthResponseError = () : void => {
+        setState({ ...state, authResponseError: {} });
+    };
+
     return (
         <AuthContext.Provider
             value={ {
@@ -545,7 +551,8 @@ const AuthProvider: FunctionComponent = (
                 signIn,
                 signOut,
                 state,
-                updateConfig
+                updateConfig,
+                clearAuthResponseError
             } }
         >
             { props.children }

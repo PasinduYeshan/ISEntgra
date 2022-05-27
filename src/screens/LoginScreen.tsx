@@ -1,4 +1,4 @@
-import React, {useState, useEffect} from 'react';
+import React, {useEffect} from 'react';
 import {
   ActivityIndicator,
   Button,
@@ -47,14 +47,15 @@ const LoginScreen = (props: {
     getIDToken,
     getDecodedIDToken,
     getAuthorizationURL,
+    clearAuthResponseError,
   } = useAuthContext();
 
   /**
    * This hook will initialize the auth provider with the config object.
    */
   useEffect(() => {
-    wipeAll();
     initialize(config);
+    syncDevice();
   }, []);
 
   /**
@@ -72,13 +73,14 @@ const LoginScreen = (props: {
               AuthResponseErrorCode.DEVICE_NOT_ENROLLED
             ) {
               setLoginState(initialState);
-
+              clearAuthResponseError();
               disenrollDevice().catch(err => {
                 console.log(err);
               });
               props.navigation.navigate('ConsentScreen');
             } else {
               setLoginState(initialState);
+              clearAuthResponseError();
             }
           },
         },
@@ -150,23 +152,6 @@ const LoginScreen = (props: {
     }
   };
 
-  /**
-   * This function will be triggered upon disenroll button click.
-   */
-  const handleDisenrollPressed = async () => {
-    try {
-      setLoading(true);
-      await disenrollDevice();
-      setLoading(false);
-      props.navigation.navigate('ConsentScreen');
-    } catch (err) {
-      setLoading(false);
-      // eslint-disable-next-line no-console
-      console.log(err);
-      return;
-    }
-  };
-
   return (
     <View style={{...styles.mainBody, justifyContent: 'space-between'}}>
       <View style={{...styles.container, justifyContent: 'space-between'}}>
@@ -180,21 +165,6 @@ const LoginScreen = (props: {
             source={require('../assets/images/login.jpg')}
             style={styles.loginScreenImage}
           />
-          {/* <Text style={styles.textpara}>
-              Sample demo to showcase authentication for a React Native via the
-              OpenID Connect Authorization Code flow, which is integrated using
-              the{' '}
-              <Text
-                style={styles.textStyle}
-                onPress={() =>
-                  Linking.openURL(
-                    'https://github.com/asgardeo/asgardeo-react-native-oidc-sdk',
-                  )
-                }>
-                Asgardeo Auth React Native SDK
-              </Text>
-              .
-            </Text> */}
         </View>
         <View style={styles.button}>
           <Button color="#282c34" onPress={handleSubmitPress} title="Login" />
@@ -202,8 +172,8 @@ const LoginScreen = (props: {
         <View style={{...styles.button, marginVertical: 10}}>
           <Button
             color="#282c34"
-            onPress={handleDisenrollPressed}
-            title="Disenroll"
+            onPress={() => props.navigation.navigate('ConsentScreen')}
+            title="Back"
           />
         </View>
         {loading ? (

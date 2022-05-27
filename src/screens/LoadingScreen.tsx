@@ -14,7 +14,7 @@ const LoadingScreen = (props: {
   useEffect(() => {
     async function checkDeviceEnrolledStat() {
       const enrolledState = await getStoredString('enrolledState');
-      if (enrolledState == null || enrolledState === 'false') {
+      if (enrolledState == null || enrolledState == 'false') {
         props.navigation.navigate('ConsentScreen');
       } else {
         props.navigation.navigate('LoginScreen');

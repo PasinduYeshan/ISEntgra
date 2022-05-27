@@ -144,6 +144,7 @@ class EntgraServiceManager(reactContext : ReactApplicationContext) : ReactContex
     @ReactMethod
     fun disenrollDevice(promise: Promise) {
         try {
+            // Not implemented
             // var baseUrl = BuildConfig.ENTGRA_BASE_URL;
             // var server = Server(baseUrl, getCurrentActivity() as Context);
             // server.enroll(username, password) {
@@ -177,11 +178,10 @@ class EntgraServiceManager(reactContext : ReactApplicationContext) : ReactContex
                 server.sync() {
                     promise.resolve("Synced successfully");
                 }
-                promise.resolve("Synced successfully");
             } catch (e: NetworkAccessException) {
-                promise.reject("Network Error", e);
+                promise.reject("Network Error");
             } catch (e : Exception) {
-                promise.reject("Error in syncing device", e);
+                promise.reject("Error in syncing device");
             }
         }
     }

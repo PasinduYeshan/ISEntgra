@@ -53,7 +53,7 @@ const ConsentScreen = (props: {
           <Button
             color="#282c34"
             onPress={handleSubmitPress}
-            title="Continue"
+            title="Register"
           />
         </View>
         {loading ? (

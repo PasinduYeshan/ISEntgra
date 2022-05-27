@@ -58,7 +58,6 @@ export async function getDeviceID(): Promise<string> {
 export async function enrollDevice(): Promise<string> {
   try {
     const res = await EntgraServiceManager.enrollDevice();
-    console.log("This is response",res);
     await storeString('enrolledState', 'true');
     return 'Successfully enrolled device';
   } catch (error) {
@@ -104,7 +103,8 @@ export async function disenrollDevice(): Promise<string> {
  */
  export async function syncDevice(): Promise<string> {
   try {
-    await EntgraServiceManager.syncDevice();
+    const res = await EntgraServiceManager.syncDevice();
+    console.log(res);
     return 'Successfully synced';
   } catch (error) {
     console.error(error);

@@ -57,6 +57,7 @@ export interface AuthContextInterface {
     isAuthenticated: () => Promise<boolean>;
     updateConfig: (config: Partial<AuthClientConfig>) => Promise<void>;
     requestCustomGrant: (config: CustomGrantConfig) => Promise<any>;
+    clearAuthResponseError: () => void;
 }
 
 export type AuthUrl = {

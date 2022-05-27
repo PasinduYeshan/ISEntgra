@@ -21,6 +21,7 @@ import {StyleSheet} from 'react-native';
 const styles = StyleSheet.create({
   body: {
     margin: 10,
+    color: 'white',
   },
 
   button: {
@@ -59,13 +60,14 @@ const styles = StyleSheet.create({
   flexDetails: {
     marginBottom: 10,
     marginLeft: 10,
+    color: 'white',
   },
 
   flexHeading: {
     fontWeight: 'bold',
     marginTop: 10,
     textAlign: 'center',
-    
+    color: 'white',
   },
 
   footer: {
@@ -127,6 +129,7 @@ const styles = StyleSheet.create({
   refToken: {
     marginBottom: 10,
     textAlign: 'center',
+    color: 'white',
   },
 
   heading: {
