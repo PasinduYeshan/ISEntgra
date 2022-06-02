@@ -22,8 +22,8 @@ const ConsentScreen = (props: {
       console.log(e);
       setLoading(false);
     });
-    props.navigation.navigate('LoginScreen');
     setLoading(false);
+    setTimeout(() => props.navigation.navigate('LoginScreen'), 1000);
   };
 
   return (

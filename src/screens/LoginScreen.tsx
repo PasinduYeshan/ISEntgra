@@ -67,13 +67,14 @@ const LoginScreen = (props: {
       Alert.alert('Error Occurred', state.authResponseError.errorMessage, [
         {
           text: 'OK',
-          onPress: () => {
+          onPress: async () => {
             if (
               state.authResponseError?.errorCode ==
               AuthResponseErrorCode.DEVICE_NOT_ENROLLED
             ) {
               setLoginState(initialState);
               clearAuthResponseError();
+              await wipeAll();
               disenrollDevice().catch(err => {
                 console.log(err);
               });
@@ -129,7 +130,7 @@ const LoginScreen = (props: {
     setLoading(true);
     try {
       // Sync device information to Entgra Server
-      await syncDevice();
+      syncDevice().catch(err => console.log(err));
 
       let authURLConfig: GetAuthURLConfig = {};
       // Fetch device id from Entgra SDK and set it in the config object.
@@ -152,6 +153,14 @@ const LoginScreen = (props: {
     }
   };
 
+  /**
+   * This function will be triggered upon back button click.
+   */
+  const handleBackPress = async () => {
+    await wipeAll();
+    props.navigation.navigate('ConsentScreen')
+  };
+
   return (
     <View style={{...styles.mainBody, justifyContent: 'space-between'}}>
       <View style={{...styles.container, justifyContent: 'space-between'}}>
@@ -172,7 +181,7 @@ const LoginScreen = (props: {
         <View style={{...styles.button, marginVertical: 10}}>
           <Button
             color="#282c34"
-            onPress={() => props.navigation.navigate('ConsentScreen')}
+            onPress={handleBackPress}
             title="Back"
           />
         </View>
