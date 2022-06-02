@@ -8,7 +8,6 @@ import java.util.*
 import android.content.Context 
 
 class EntgraServicePackage (): ReactPackage {
-
     override fun createNativeModules(reactContext: ReactApplicationContext): List<NativeModule> {
         val modules = ArrayList<NativeModule>()
         modules.add(EntgraServiceManager(reactContext))

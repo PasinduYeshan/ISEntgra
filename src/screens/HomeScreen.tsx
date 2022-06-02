@@ -59,7 +59,7 @@ const HomeScreen = () => {
   };
 
   return (
-    <View style={styles.flexContainer}>
+    <View style={{...styles.flexContainer ,backgroundColor: 'black'}}>
       <View style={styles.flex}>
         <View>
           <Text style={styles.flexHeading}>Hi {loginState.username} !</Text>

@@ -1,30 +1,37 @@
-import React, {useState, useEffect} from 'react';
+import React, {useEffect} from 'react';
 import {
   ActivityIndicator,
   Button,
   Image,
-  Linking,
+  Platform,
   Text,
   View,
+  Alert,
 } from 'react-native';
-// TODO: Check usage
 import 'text-encoding-polyfill';
-import {useAuthContext} from '@asgardeo/auth-react-native';
+import {
+  useAuthContext,
+  AuthResponseErrorCode,
+} from '@asgardeo/auth-react-native';
 import {GetAuthURLConfig} from '@asgardeo/auth-js';
 import {styles} from '../theme/styles';
-import {initialState, useLoginContext} from '../context/LoginContext';
-import {getDeviceID} from '../services/entgraService';
+import Config from 'react-native-config';
 
-interface Bar {
-  device_id: string;
-}
+import {initialState, useLoginContext} from '../context/LoginContext';
+import {
+  getDeviceID,
+  disenrollDevice,
+  syncDevice,
+} from '../services/entgraService';
+import {wipeAll} from '../utils/Storage';
 
 // Create a config object containing the necessary configurations.
 const config = {
-  clientID: 'X7c9v_LX6c5PdLqy3fEyaAvsElsa',
-  serverOrigin: 'https://10.0.2.2:9443',
-  // signInRedirectURL: "wso2sample://oauth2"
-  signInRedirectURL: 'http://10.0.2.2:8081',
+  serverOrigin: Config.IS_BASE_URL,
+  baseUrl: Config.IS_BASE_URL,
+  clientID: Config.CLIENT_ID,
+  signInRedirectURL: Config.SIGN_IN_REDIRECT_URL,
+  validateIDToken: false,
 };
 
 // eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
@@ -40,22 +47,52 @@ const LoginScreen = (props: {
     getIDToken,
     getDecodedIDToken,
     getAuthorizationURL,
+    clearAuthResponseError,
   } = useAuthContext();
 
   /**
    * This hook will initialize the auth provider with the config object.
    */
   useEffect(() => {
-    initialize(config).catch(error => {
-      console.log(error);
-    });
+    initialize(config);
+    syncDevice();
   }, []);
+
+  /**
+   * This hook will listen for auth response error and proceed.
+   */
+  useEffect(() => {
+    if (state.authResponseError?.hasOwnProperty('errorCode')) {
+      setLoading(false);
+      Alert.alert('Error Occurred', state.authResponseError.errorMessage, [
+        {
+          text: 'OK',
+          onPress: async () => {
+            if (
+              state.authResponseError?.errorCode ==
+              AuthResponseErrorCode.DEVICE_NOT_ENROLLED
+            ) {
+              setLoginState(initialState);
+              clearAuthResponseError();
+              await wipeAll();
+              disenrollDevice().catch(err => {
+                console.log(err);
+              });
+              props.navigation.navigate('ConsentScreen');
+            } else {
+              setLoginState(initialState);
+              clearAuthResponseError();
+            }
+          },
+        },
+      ]);
+    }
+  }, [state.authResponseError]);
 
   /**
    * This hook will listen for auth state updates and proceed.
    */
   useEffect(() => {
-    console.log(state);
     if (state?.isAuthenticated) {
       const getData = async () => {
         try {
@@ -75,7 +112,6 @@ const LoginScreen = (props: {
           props.navigation.navigate('HomeScreen');
         } catch (error) {
           setLoading(false);
-          // eslint-disable-next-line no-console
           console.log(error);
         }
       };
@@ -85,80 +121,82 @@ const LoginScreen = (props: {
       setLoginState(initialState);
       props.navigation.navigate('LoginScreen');
     }
-  }, []);
+  }, [state.isAuthenticated]);
 
   /**
    * This function will be triggered upon login button click.
    */
   const handleSubmitPress = async () => {
     setLoading(true);
-
-    let authURLConfig: GetAuthURLConfig = {};
-    // Fetch device id from Entgra SDK and set it in the config object.
     try {
+      // Sync device information to Entgra Server
+      syncDevice().catch(err => console.log(err));
+
+      let authURLConfig: GetAuthURLConfig = {};
+      // Fetch device id from Entgra SDK and set it in the config object.
       const deviceID = await getDeviceID();
       authURLConfig = {
         device_id: deviceID,
+        platformOS: Platform.OS,
+        forceInit: true,
       };
-      
       // Sign in
       signIn(authURLConfig).catch((error: any) => {
         setLoading(false);
-        // eslint-disable-next-line no-console
         console.log(error);
       });
+      setLoading(false);
     } catch (err) {
       setLoading(false);
-      // eslint-disable-next-line no-console
-      console.log('Login error: ', err);
+      console.log(err);
       return;
     }
   };
 
-  return (
-    <View style={styles.mainBody}>
-      <View>
-        <View style={styles.container}>
-          <View>
-            <Text style={styles.topicText}>IS Entgra React Native Sample</Text>
-          </View>
-          <View style={styles.imageAlign}>
-            <Image
-              source={require('../assets/images/login.jpg')}
-              style={styles.image}
-            />
-            {/* <Text style={styles.textpara}>
-              Sample demo to showcase authentication for a React Native via the
-              OpenID Connect Authorization Code flow, which is integrated using
-              the{' '}
-              <Text
-                style={styles.textStyle}
-                onPress={() =>
-                  Linking.openURL(
-                    'https://github.com/asgardeo/asgardeo-react-native-oidc-sdk',
-                  )
-                }>
-                Asgardeo Auth React Native SDK
-              </Text>
-              .
-            </Text> */}
-          </View>
-          <View style={styles.button}>
-            <Button color="#282c34" onPress={handleSubmitPress} title="Login" />
-          </View>
-          {loading ? (
-            <View style={styles.loading} pointerEvents="none">
-              <ActivityIndicator size="large" color="#FF8000" />
-            </View>
-          ) : null}
-        </View>
+  /**
+   * This function will be triggered upon back button click.
+   */
+  const handleBackPress = async () => {
+    await wipeAll();
+    props.navigation.navigate('ConsentScreen')
+  };
 
-        <View style={styles.footer}>
+  return (
+    <View style={{...styles.mainBody, justifyContent: 'space-between'}}>
+      <View style={{...styles.container, justifyContent: 'space-between'}}>
+        <View style={{width: '90%'}}>
+          <Text numberOfLines={1} adjustsFontSizeToFit style={styles.topicText}>
+            IS Entgra React Native Sample
+          </Text>
+        </View>
+        <View style={{...styles.imageAlign, marginVertical: 10}}>
           <Image
-            source={require('../assets/images/footer.png')}
-            style={styles.footerAlign}
+            source={require('../assets/images/login.jpg')}
+            style={styles.loginScreenImage}
           />
         </View>
+        <View style={styles.button}>
+          <Button color="#282c34" onPress={handleSubmitPress} title="Login" />
+        </View>
+        <View style={{...styles.button, marginVertical: 10}}>
+          <Button
+            color="#282c34"
+            onPress={handleBackPress}
+            title="Back"
+          />
+        </View>
+        {loading ? (
+          <View style={styles.loading} pointerEvents="none">
+            <ActivityIndicator size="large" color="#FF8000" />
+          </View>
+        ) : null}
+      </View>
+
+      <View style={{...styles.footer}}>
+        <Image
+          source={require('../assets/images/footer.png')}
+          style={styles.footerAlign}
+        />
       </View>
     </View>
   );

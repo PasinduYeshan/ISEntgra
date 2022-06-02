@@ -21,11 +21,14 @@ import {StyleSheet} from 'react-native';
 const styles = StyleSheet.create({
   body: {
     margin: 10,
+    color: 'white',
   },
 
   button: {
-    marginLeft: '35%',
-    width: '30%',
+    alignContent : 'center',
+    // marginLeft: '35%',
+    width: '40%',
+    marginVertical: 5,
   },
 
   deco: {
@@ -35,9 +38,11 @@ const styles = StyleSheet.create({
   },
 
   flex: {
-    backgroundColor: '#e2e2e2',
+    // backgroundColor: '#e2e2e2',
     borderColor: '#c5c5c5',
     borderWidth: 1,
+    backgroundColor : 'black',
+    
   },
 
   flexBody: {
@@ -49,34 +54,53 @@ const styles = StyleSheet.create({
     flex: 1,
     flexDirection: 'column',
     paddingBottom: 70,
+    color: 'black',
   },
 
   flexDetails: {
     marginBottom: 10,
     marginLeft: 10,
+    color: 'white',
   },
 
   flexHeading: {
     fontWeight: 'bold',
     marginTop: 10,
     textAlign: 'center',
+    color: 'white',
   },
 
   footer: {
     alignItems: 'center',
     paddingTop: 45,
+    height : 40,
   },
 
   footerAlign: {
-    height: 20,
-    width: 50,
+    maxHeight: 40,
+    maxWidth: 100,
+  },
+
+  loginScreenImage: {
+    borderRadius: 30,
+    height: '62%',
+    resizeMode: 'contain',
+    maxWidth : '90%'
+  },
+
+  loadingScreenImage: {
+    borderRadius: 30,
+    // height: '40%',
+    resizeMode: 'contain',
+    width: '95%',
   },
 
   image: {
     borderRadius: 30,
-    height: '60%',
+    height: '40%',
     resizeMode: 'contain',
-    width: '85%',
+    // width: '85%',
+    marginBottom: 10,
   },
 
   imageAlign: {
@@ -105,6 +129,16 @@ const styles = StyleSheet.create({
   refToken: {
     marginBottom: 10,
     textAlign: 'center',
+    color: 'white',
+  },
+
+  heading: {
+    color: '#f47421',
+    fontSize: 25,
+    fontWeight: 'bold',
+    justifyContent: 'center',
+    textAlign: 'center',
+    marginBottom : 15
   },
 
   text: {
@@ -122,11 +156,12 @@ const styles = StyleSheet.create({
     borderBottomColor: '#e2e2e2',
     borderBottomWidth: 2,
     color: 'white',
+    width: '100%',
     fontSize: 25,
     justifyContent: 'center',
     textAlign: 'center',
-    paddingVertical: 5,
-    marginVertical : 10,
+    marginVertical: 10,
+    padding: 5,
   },
 
   textStyle: {
@@ -145,6 +180,7 @@ const styles = StyleSheet.create({
   },
   container: {
     backgroundColor: '#0000',
+    alignItems: 'center',
   },
 });
 

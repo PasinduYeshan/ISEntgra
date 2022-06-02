@@ -28,7 +28,6 @@ build/
 .gradle
 local.properties
 *.iml
-*.hprof
 
 # node.js
 #
@@ -58,12 +57,3 @@ buck-out/
 
 # CocoaPods
 /ios/Pods/
-
-# Vscode
-.vscode/
-
-.env
-
-# WSO2 IS configurations
-android/app/src/main/res/xml/
-android/app/src/main/res/raw/wso2carbon.pem
