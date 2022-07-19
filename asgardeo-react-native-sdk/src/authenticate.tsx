@@ -140,6 +140,7 @@ const AuthProvider: FunctionComponent = (
                 Linking.openURL(url);
             })
             .catch((error) => {
+                console.log(error);
                 throw new AsgardeoAuthException(
                     "AUTHENTICATE-SI-IV01",
                     "Failed to retrieve authorization url",

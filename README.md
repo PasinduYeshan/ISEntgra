@@ -19,19 +19,12 @@ You can experience the capabilities of Entgra IS React Native Sample Application
 
 1. Register the application in Entgra IoT server by using following CURL command. For the Authorization header encode `username:password` to Base64 format and use the encoded value as `'Authorization: Basic {encodedValue}'`. Provide any name for the `applicationName` and provide the application owner’s username for the `username`. Copy the values of `client_id` and `client_secret`.
     
-    ```jsx
-    curl --location --request POST 'https://{mgtURL}/api-application-registration/register' \
-    --header 'Accept: application/json' \
-    --header 'Content-Type: application/json' \
-    --header 'Authorization: Basic YWRtaW46YWRtaW4=' \
-    --data-raw '{ 
-        "applicationName": "is_sdk1", 
-        "tags": ["android","device_management"],
-        "username": "admin",
-        "allowedToAllDomains": false,
-        "mappingAnExistingOAuthApp": false
-    }
-    '
+    ```shell
+    curl --location --request POST 'https://${mgtURL}/api-application-registration/register' \
+        --header 'Accept: application/json' \
+        --header 'Authorization: Basic YWRtaW46YWRtaW4=' \
+        --header 'Content-Type: application/json' \
+        --data-raw '{"applicationName":"sp_sdk_s1","tags":["android","device_management"],"username”:”admin”,”allowedToAllDomains":false,"mappingAnExistingOAuthApp":false}'
     ```
     
     Response:
@@ -74,7 +67,7 @@ You can experience the capabilities of Entgra IS React Native Sample Application
     
     ```jsx
     var onLoginRequest = function(context) {
-        deviceID = context.request.params.device_id[0];
+        deviceID = context.request.params.deviceID[0];
         platformOS = context.request.params.platformOS[0];
                 executeStep(1, {
                     onSuccess : function (context) {

@@ -12,6 +12,7 @@ import HomeScreen from './src/screens/HomeScreen';
 import LoginScreen from './src/screens/LoginScreen';
 import ConsentScreen from './src/screens/ConsentScreen';
 import LoadingScreen from './src/screens/LoadingScreen';
+import HomeScreenNew from './src/screens/HomeScreenNew';
 
 
 const App = () => {
@@ -20,7 +21,7 @@ const App = () => {
     <AuthProvider>
       <LoginContextProvider>
         <NavigationContainer>
-          <Stack.Navigator initialRouteName={'LoadingScreen'}>
+          <Stack.Navigator initialRouteName={'LoginScreen'}>
             <Stack.Screen
               name="DeviceAttributes"
               component={DeviceAttributesScreen}
@@ -44,6 +45,11 @@ const App = () => {
             <Stack.Screen
               name="LoadingScreen"
               component={LoadingScreen}
+              options={{headerShown: false}}
+            />
+            <Stack.Screen
+              name="HomeScreenNew"
+              component={HomeScreenNew}
               options={{headerShown: false}}
             />
           </Stack.Navigator>
