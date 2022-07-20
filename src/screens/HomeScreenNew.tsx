@@ -9,22 +9,19 @@ import {
 } from 'react-native';
 import {styles} from '../theme/styles';
 
-import {enrollDevice} from '../services/entgraService';
+import { useLoginContext } from '../context/LoginContext';
+import {useAuthContext} from '@asgardeo/auth-react-native';
 
-const ConsentScreen = (props: {
+const HomeScreenNew = (props: {
   navigation: {navigate: (args0: string) => void};
 }) => {
-  const [loading, setLoading] = useState(false);
+
+  const {loginState, setLoginState, loading, setLoading} = useLoginContext();
+  const {state, signOut, refreshAccessToken} = useAuthContext();
 
   const handleSubmitPress = async () => {
-    setLoading(true);
-    enrollDevice().catch(e => {
-      console.log(e);
-      setLoading(false);
-    }).then(() => props.navigation.navigate('LoginScreen'));
-    setLoading(false);
-    // setTimeout(() => props.navigation.navigate('LoginScreen'), 1000);
     
+    setTimeout(() => props.navigation.navigate('LoginScreen'), 1000);
   };
 
   return (
@@ -41,20 +38,21 @@ const ConsentScreen = (props: {
             source={require('../assets/images/wso2-logo.png')}
             style={styles.image}
           />
-          <Text style={styles.heading}>Disclaimer</Text>
-          <Text style={styles.textpara}>
+          {/* <Text style={styles.heading}>Hi {loginState.username} !</Text> */}
+          <Text style={styles.heading}>Welcome to Guardio Finance</Text>
+          {/* <Text style={styles.textpara}>
             We may send your device information to Entgra IoT Server to assess
             your device's security level and to provide you with the best
             services. All data sent to Entgra IoT Server is only accessible to
             the authorized users and can be permanently removed if needed.
-          </Text>
+          </Text> */}
         </View>
         <View
           style={{...styles.button, marginBottom: 10, alignItems: 'center'}}>
           <Button
             color="#282c34"
             onPress={handleSubmitPress}
-            title="Enroll Device"
+            title="Back to Login"
           />
         </View>
         {loading ? (
@@ -67,4 +65,4 @@ const ConsentScreen = (props: {
   );
 };
 
-export default ConsentScreen;
+export default HomeScreenNew;

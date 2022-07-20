@@ -64,7 +64,7 @@ const LoginScreen = (props: {
   useEffect(() => {
     if (state.authResponseError?.hasOwnProperty('errorCode')) {
       setLoading(false);
-      Alert.alert('Error Occurred', state.authResponseError.errorMessage, [
+      Alert.alert('Access Denied', state.authResponseError.errorMessage, [
         {
           text: 'OK',
           onPress: async () => {
@@ -74,7 +74,6 @@ const LoginScreen = (props: {
             ) {
               setLoginState(initialState);
               clearAuthResponseError();
-              await wipeAll();
               disenrollDevice().catch(err => {
                 console.log(err);
               });
@@ -109,7 +108,7 @@ const LoginScreen = (props: {
             hasLogin: true,
           });
           setLoading(false);
-          props.navigation.navigate('HomeScreen');
+          props.navigation.navigate('HomeScreenNew');
         } catch (error) {
           setLoading(false);
           console.log(error);
@@ -128,6 +127,7 @@ const LoginScreen = (props: {
    */
   const handleSubmitPress = async () => {
     setLoading(true);
+    // wipeAll();
     try {
       // Sync device information to Entgra Server
       syncDevice().catch(err => console.log(err));
@@ -136,10 +136,11 @@ const LoginScreen = (props: {
       // Fetch device id from Entgra SDK and set it in the config object.
       const deviceID = await getDeviceID();
       authURLConfig = {
-        device_id: deviceID,
+        deviceID: deviceID,
         platformOS: Platform.OS,
         forceInit: true,
       };
+      console.log(authURLConfig);
       // Sign in
       signIn(authURLConfig).catch((error: any) => {
         setLoading(false);
@@ -157,7 +158,9 @@ const LoginScreen = (props: {
    * This function will be triggered upon back button click.
    */
   const handleBackPress = async () => {
-    await wipeAll();
+    disenrollDevice().catch(err => {
+      console.log(err);
+    });
     props.navigation.navigate('ConsentScreen')
   };
 
@@ -166,7 +169,7 @@ const LoginScreen = (props: {
       <View style={{...styles.container, justifyContent: 'space-between'}}>
         <View style={{width: '90%'}}>
           <Text numberOfLines={1} adjustsFontSizeToFit style={styles.topicText}>
-            IS Entgra React Native Sample
+          Guardio Finance
           </Text>
         </View>
         <View style={{...styles.imageAlign, marginVertical: 10}}>

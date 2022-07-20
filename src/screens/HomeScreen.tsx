@@ -57,7 +57,6 @@ const HomeScreen = () => {
       console.log(error);
     });
   };
-
   return (
     <View style={{...styles.flexContainer ,backgroundColor: 'black'}}>
       <View style={styles.flex}>

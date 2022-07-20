@@ -201,13 +201,14 @@ dependencies {
     implementation fileTree(dir: "libs", include: ["*.jar"])
     //noinspection GradleDynamicVersion
     implementation "com.facebook.react:react-native:+"  // From node_modules
-    implementation project(':react-native-config')
+   
 
     implementation "androidx.swiperefreshlayout:swiperefreshlayout:1.0.0"
 
-    // Added modules
+    // Manually added modules
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:1.6.0"
     implementation 'io.entgra.device.mgt.sdk:security-sdk-core:0.2.0'
+    implementation project(':react-native-config')
 
     debugImplementation("com.facebook.flipper:flipper:${FLIPPER_VERSION}") {
         exclude group:'com.facebook.fbjni'
