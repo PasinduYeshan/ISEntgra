@@ -12,7 +12,7 @@ import {styles} from '../theme/styles';
 import { useLoginContext } from '../context/LoginContext';
 import {useAuthContext} from '@asgardeo/auth-react-native';
 
-const HomeScreenNew = (props: {
+const GuardioHome = (props: {
   navigation: {navigate: (args0: string) => void};
 }) => {
 
@@ -65,4 +65,4 @@ const HomeScreenNew = (props: {
   );
 };
 
-export default HomeScreenNew;
+export default GuardioHome;

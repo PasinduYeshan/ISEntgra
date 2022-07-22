@@ -12,8 +12,8 @@ import HomeScreen from './src/screens/HomeScreen';
 import LoginScreen from './src/screens/LoginScreen';
 import ConsentScreen from './src/screens/ConsentScreen';
 import LoadingScreen from './src/screens/LoadingScreen';
-import HomeScreenNew from './src/screens/HomeScreenNew';
-
+import GuardioHome from './src/screens/GuardioHome';
+import Dashboard from './src/screens/Dashboard';
 
 const App = () => {
   const Stack = createStackNavigator();
@@ -21,7 +21,7 @@ const App = () => {
     <AuthProvider>
       <LoginContextProvider>
         <NavigationContainer>
-          <Stack.Navigator initialRouteName={'LoginScreen'}>
+          <Stack.Navigator initialRouteName={'Dashboard'}>
             <Stack.Screen
               name="DeviceAttributes"
               component={DeviceAttributesScreen}
@@ -48,8 +48,13 @@ const App = () => {
               options={{headerShown: false}}
             />
             <Stack.Screen
-              name="HomeScreenNew"
-              component={HomeScreenNew}
+              name="GuardioHome"
+              component={GuardioHome}
+              options={{headerShown: false}}
+            />
+            <Stack.Screen
+              name="Dashboard"
+              component={Dashboard}
               options={{headerShown: false}}
             />
           </Stack.Navigator>

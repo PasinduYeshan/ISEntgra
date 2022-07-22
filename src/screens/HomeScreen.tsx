@@ -16,13 +16,13 @@
  * under the License.
  */
 
-import {useAuthContext} from '@asgardeo/auth-react-native';
 import React from 'react';
 import {ActivityIndicator, Text, View} from 'react-native';
 import {ScrollView} from 'react-native-gesture-handler';
 import {Button, ButtonContainer} from '../component';
 import {styles} from '../theme/styles';
 import {useLoginContext} from '../context/LoginContext';
+import {useAuthContext} from '@asgardeo/auth-react-native';
 
 // eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
 const HomeScreen = () => {

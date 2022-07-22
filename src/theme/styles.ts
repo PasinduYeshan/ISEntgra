@@ -221,6 +221,21 @@ const styles = StyleSheet.create({
     backgroundColor: '#0000',
     alignItems: 'center',
   },
+  headerContainer: {
+    position: 'absolute',
+    // top: 30,
+    left: 0,
+    width: '100%',
+        backgroundColor: 'transparent',
+    color: 'black',
+    elevation: 5,
+    height: 50,
+    display: 'flex',
+    flexDirection: 'row',
+    paddingHorizontal: 20,
+    alignItems: 'center',
+    justifyContent: 'space-between',
+  },
 });
 
 export {styles};
