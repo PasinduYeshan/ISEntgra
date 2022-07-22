@@ -14,7 +14,7 @@ export default function Header({screen}: {screen: string}) {
               <FontAwesomeIcon icon={faBars} size={ 20} />
       </TouchableOpacity>
       <View style={{justifyContent:'center', alignSelf:'center'}}>
-        <Text style={{color: 'black', alignItems:'center'}}>{screen}</Text>
+        <Text style={styles.headerPageNameText}>{screen}</Text>
       </View>
     </View>
   );

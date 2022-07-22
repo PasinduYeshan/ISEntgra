@@ -38,7 +38,7 @@ const ConsentScreen = (props: {
         }}>
         <View style={{alignItems: 'center'}}>
           <Image
-            source={require('../assets/images/wso2-logo.png')}
+             source={require('../assets/images/guardio-primary.png')}
             style={styles.image}
           />
           <Text style={styles.heading}>Disclaimer</Text>

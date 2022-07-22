@@ -99,7 +99,7 @@ const styles = StyleSheet.create({
   },
 
   image: {
-    borderRadius: 30,
+    borderRadius: 0,
     height: '40%',
     resizeMode: 'contain',
     // width: '85%',
@@ -138,7 +138,7 @@ const styles = StyleSheet.create({
   },
 
   heading: {
-    color: '#f47421',
+    color: 'black',
     fontSize: 25,
     fontWeight: 'bold',
     justifyContent: 'center',
@@ -211,7 +211,7 @@ const styles = StyleSheet.create({
   textpara: {
     borderBottomColor: '#282c34',
     color: '#2A2A2A',
-    fontSize: 18,
+    fontSize: 17,
     justifyContent: 'center',
     paddingLeft: 20,
     paddingRight: 20,
@@ -236,6 +236,11 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'space-between',
   },
+  headerPageNameText: {
+    fontSize: 14,
+    color: 'black',
+    fontFamily: 'sans-serif',
+  }
 });
 
 export {styles};

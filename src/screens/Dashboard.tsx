@@ -15,7 +15,7 @@ import HomeScreen from './HomeScreen';
 import Header from '../component/Header';
 import DrawerItems from '../config/drawerItem.js';
 
-const Drawer = createDrawerNavigator();
+const Drawer: any = createDrawerNavigator();
 
 const Dashboard = () => {
   const {loginState, setLoginState, loading, setLoading} = useLoginContext();
@@ -24,7 +24,8 @@ const Dashboard = () => {
   /**
    * This function will handle the sign out button click.
    */
-  const handleSignOut = async ({}) => {
+  const handleSignOut = async () => {
+    console.log('this workds');
     setLoginState({
       ...loginState,
       ...state,
@@ -43,21 +44,29 @@ const Dashboard = () => {
       <DrawerContentScrollView {...props}>
         <DrawerItemList {...props} />
 
-            <DrawerItem label="Log out" onPress={async () => handleSignOut} style={{alignContent:'flex-end'}} />
+        <DrawerItem
+          label="Log out"
+          onPress={async () => handleSignOut()}
+          style={{alignContent: 'flex-end'}}
+        />
       </DrawerContentScrollView>
     );
   };
-    
+
   return (
     <Drawer.Navigator
       // drawerType="front"
       useLegacyImplementation={true}
       initialRouteName="GuardioHome"
-      drawerContent={props => <CustomDrawerContent {...props} />}>
+      drawerContent={(props: any) => <CustomDrawerContent {...props} />}>
       {DrawerItems.map(drawer => (
         <Drawer.Screen
           key={drawer.name}
           name={drawer.name}
+          drawerContentOptions={{
+            activeTintColor: '#e91e63',
+            itemStyle: {marginVertical: 50},
+          }}
           options={{
             headerShown: true,
             header: () => {
