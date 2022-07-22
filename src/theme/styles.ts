@@ -73,16 +73,19 @@ const styles = StyleSheet.create({
   footer: {
     alignItems: 'center',
     paddingTop: 45,
-    height : 40,
+    height: 40,
+    opacity: 0.5,
+    // width: 100,
   },
 
   footerAlign: {
-    maxHeight: 40,
-    maxWidth: 100,
+    flexWrap: 'wrap',
+    maxHeight: 30,
+    resizeMode: 'contain',
   },
 
   loginScreenImage: {
-    borderRadius: 30,
+    borderRadius: 0,
     height: '62%',
     resizeMode: 'contain',
     maxWidth : '90%'
@@ -105,6 +108,7 @@ const styles = StyleSheet.create({
 
   imageAlign: {
     alignItems: 'center',
+    
   },
 
   loading: {
@@ -120,6 +124,7 @@ const styles = StyleSheet.create({
 
   mainBody: {
     backgroundColor: '#0000',
+    marginBottom: 20,
   },
 
   refBody: {
@@ -152,16 +157,50 @@ const styles = StyleSheet.create({
   },
 
   topicText: {
-    backgroundColor: '#f47421',
+    // backgroundColor: '#f47421',
     borderBottomColor: '#e2e2e2',
     borderBottomWidth: 2,
-    color: 'white',
+    color: 'rgb(80, 166, 216)',
     width: '100%',
-    fontSize: 25,
+    justifyContent: 'center',
+    textAlign: 'center',
+    marginVertical: 10,
+    marginTop: 20,
+    padding: 5,
+    fontSize: 30,
+    fontFamily: 'sans-serif',
+    fontWeight: 'bold',
+
+  },
+
+  topicText1: {
+    // backgroundColor: '#f47421',
+    borderBottomColor: '#e2e2e2',
+    borderBottomWidth: 2,
+    color: 'rgb(80, 166, 216)',
+    width: '100%',
     justifyContent: 'center',
     textAlign: 'center',
     marginVertical: 10,
     padding: 5,
+    fontSize: 30,
+    fontFamily: 'sans-serif',
+    fontWeight: 'bold',
+  },
+
+  topicText2: {
+    // backgroundColor: '#f47421',
+    borderBottomColor: '#e2e2e2',
+    borderBottomWidth: 2,
+    color: 'black',
+    width: '100%',
+    justifyContent: 'center',
+    textAlign: 'center',
+    marginVertical: 10,
+    padding: 5,
+    fontSize: 30,
+    fontFamily: 'sans-serif',
+    fontWeight: 'bold',
   },
 
   textStyle: {

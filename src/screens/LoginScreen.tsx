@@ -161,20 +161,21 @@ const LoginScreen = (props: {
     disenrollDevice().catch(err => {
       console.log(err);
     });
-    props.navigation.navigate('ConsentScreen')
+    props.navigation.navigate('ConsentScreen');
   };
 
   return (
     <View style={{...styles.mainBody, justifyContent: 'space-between'}}>
       <View style={{...styles.container, justifyContent: 'space-between'}}>
-        <View style={{width: '90%'}}>
-          <Text numberOfLines={1} adjustsFontSizeToFit style={styles.topicText}>
-          Guardio Finance
+        <View style={{width: '90%', marginTop: 10}}>
+          <Text numberOfLines={1} adjustsFontSizeToFit style={styles.topicText1}>
+            <Text style={styles.topicText1}>Guardio </Text>
+            <Text style={styles.topicText2}>Finance</Text>
           </Text>
         </View>
         <View style={{...styles.imageAlign, marginVertical: 10}}>
           <Image
-            source={require('../assets/images/login.jpg')}
+            source={require('../assets/images/guardio-primary.png')}
             style={styles.loginScreenImage}
           />
         </View>
@@ -182,11 +183,7 @@ const LoginScreen = (props: {
           <Button color="#282c34" onPress={handleSubmitPress} title="Login" />
         </View>
         <View style={{...styles.button, marginVertical: 10}}>
-          <Button
-            color="#282c34"
-            onPress={handleBackPress}
-            title="Back"
-          />
+          <Button color="#282c34" onPress={handleBackPress} title="Back" />
         </View>
         {loading ? (
           <View style={styles.loading} pointerEvents="none">
@@ -195,9 +192,9 @@ const LoginScreen = (props: {
         ) : null}
       </View>
 
-      <View style={{...styles.footer}}>
+      <View style={{...styles.footer, paddingBottom: 20}}>
         <Image
-          source={require('../assets/images/footer.png')}
+          source={require('../assets/images/guardio-horizontal-dark.webp')}
           style={styles.footerAlign}
         />
       </View>
