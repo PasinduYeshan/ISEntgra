@@ -1,4 +1,5 @@
 import React from 'react';
+import {LogBox} from 'react-native';
 import {createDrawerNavigator} from '@react-navigation/drawer';
 import {NavigationContainer} from '@react-navigation/native';
 import {
@@ -20,6 +21,10 @@ const Drawer: any = createDrawerNavigator();
 const Dashboard = () => {
   const {loginState, setLoginState, loading, setLoading} = useLoginContext();
   const {state, signOut, refreshAccessToken} = useAuthContext();
+
+  React.useEffect(() => {
+    LogBox.ignoreLogs(['VirtualizedList should never be nested']);
+  }, []);
 
   /**
    * This function will handle the sign out button click.

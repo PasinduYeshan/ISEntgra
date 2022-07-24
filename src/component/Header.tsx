@@ -2,6 +2,7 @@ import React from 'react';
 import {View, Text, TouchableOpacity} from 'react-native';
 import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome'
     import { faBars } from '@fortawesome/free-solid-svg-icons/faBars';
+    import { faBell } from '@fortawesome/free-solid-svg-icons/faBell';
 import { useNavigation } from '@react-navigation/native';
 
 import {styles} from '../theme/styles';
@@ -11,10 +12,16 @@ export default function Header({screen}: {screen: string}) {
   return (
     <View style={styles.headerContainer}>
       <TouchableOpacity onPress={() => navigation.toggleDrawer()}>
-              <FontAwesomeIcon icon={faBars} size={ 20} />
+              <FontAwesomeIcon icon={faBars} size={ 20} color='white'/>
       </TouchableOpacity>
       <View style={{justifyContent:'center', alignSelf:'center'}}>
-        <Text style={styles.headerPageNameText}>{screen}</Text>
+        <FontAwesomeIcon
+                icon={faBell}
+                size={20}
+                color="white"
+                style={{flex: 1}}
+                secondaryColor="black"
+              />
       </View>
     </View>
   );

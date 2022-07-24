@@ -108,7 +108,7 @@ const LoginScreen = (props: {
             hasLogin: true,
           });
           setLoading(false);
-          props.navigation.navigate('GuardioHome');
+          props.navigation.navigate('Dashboard');
         } catch (error) {
           setLoading(false);
           console.log(error);

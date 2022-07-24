@@ -203,6 +203,21 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
   },
 
+  topicText3: {
+    // backgroundColor: '#f47421',
+    borderBottomColor: '#e2e2e2',
+    borderBottomWidth: 2,
+    color: 'black',
+    width: '100%',
+    justifyContent: 'center',
+    textAlign: 'center',
+    marginVertical: 10,
+    padding: 5,
+    fontSize: 18,
+    fontFamily: 'sans-serif',
+    // fontWeight: 'bold',
+  },
+
   textStyle: {
     color: 'blue',
     textDecorationLine: 'underline',
@@ -216,6 +231,7 @@ const styles = StyleSheet.create({
     paddingLeft: 20,
     paddingRight: 20,
     textAlign: 'justify',
+    fontFamily: 'sans-serif',
   },
   container: {
     backgroundColor: '#0000',
