@@ -80,7 +80,7 @@ const styles = StyleSheet.create({
 
   footerAlign: {
     flexWrap: 'wrap',
-    maxHeight: 30,
+    maxHeight: 18,
     resizeMode: 'contain',
   },
 
