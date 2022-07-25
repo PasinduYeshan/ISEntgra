@@ -124,7 +124,7 @@ valid URL format ending with `/sdk/secure` for **Callback Url** section. </br></
    > 2. Device is rooted :- deviceInfo.ROOTED
    > 3. ADB enabled :- deviceInfo.IS_ADB
    
-   To see the Entgra adaptive authentication script documentation, Click [here](files/adaptive_script.md).
+   To see the Entgra adaptive authentication script documentation, Click [here](https://github.com/PasinduYeshan/identity-conditional-auth-entgra/blob/main/docs/files/adaptive_script.md).
 
 12. Expand the **Authentication Step Configuration** and click on **Add Authentication Step**  button make sure to 
     mark **Use subject identifier from this step** and **Use attributes from this step**. Then under **Local Authenticators** select an option and click on **Add authenticator** button. According to the above code there should be two authentication steps, therefore add another authentication steps and do not mark **Use subject identifier from this step** and **Use attributes from this step** options in this step.

@@ -106,7 +106,7 @@ const GuardioHome = (props: {
         <FlatList
           contentContainerStyle={{marginTop: 10}}
           scrollEnabled={false}
-          data={transactionHistory}
+          data={transactionDemoData}
           keyExtractor={item => `${item.id}`}
           renderItem={renderItem}
           showsVerticalScrollIndicator={false}
@@ -133,34 +133,7 @@ const GuardioHome = (props: {
 
 export default GuardioHome;
 
-{
-  /* <View
-        style={{
-          ...styles.mainBody,
-          flex: 1,
-          justifyContent: 'space-around',
-          alignItems: 'center',
-        }}>
-        <View style={{alignItems: 'center'}}>
-          <Image
-            source={require('../assets/images/guardio-primary.png')}
-            style={styles.image}
-          />
-          <View style={{width: '90%', marginTop: 10}}>
-            <Text
-              numberOfLines={1}
-              adjustsFontSizeToFit
-              style={styles.topicText1}>
-              <Text style={styles.topicText1}>Guardio </Text>
-              <Text style={styles.topicText2}>Finance</Text>
-            </Text>
-          </View>
-          <View></View>
-        </View>
-      </View> */
-}
-
-const transactionHistory = [
+const transactionDemoData = [
   {
     id: 1,
     description: 'Fund transfer via CEFT',
@@ -197,10 +170,5 @@ const transactionHistory = [
     date: '12/12/2020',
     amount: 'LKR 102,000.00',
   },
-  // {
-  //   id: 7,
-  //   description: 'Fund transfer via CEFT',
-  //   date: '12/12/2020',
-  //   amount: 'LKR 96,000.00',
-  // },
 ];
+
