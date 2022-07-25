@@ -1,5 +1,3 @@
-// To avoid error of isolatedModule
-
 // Error codes in the response when authentication fails
 export enum AuthResponseErrorCode {
   ACCESS_DENIED,
