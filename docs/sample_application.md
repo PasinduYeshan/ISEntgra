@@ -1,10 +1,10 @@
 ## Configuring the Sample Application
 
-1. Clone/download this project from {repo link}. </br></br>
+1. Clone/download this project from {repo link}. 
 
 2. Install the dependencies and generate the tar file by running the following command inside
    the `asgardeo-react-native-sdk/` directory.
-   `npm pack` </br></br>
+   `npm pack` 
    
 3. Create a `.env` file inside the project folder and add the relevant configurations
    - Replace the value of `clientID` with the value of `OAuth Client Key` or `Client ID` which you copied when you
@@ -42,7 +42,7 @@
        ENTGRA_MGT_URL=https://nest.mgt.entgra.net
        ```
 
-4. Install the required dependencies by running the following command inside the `/`directory. </br></br>
+4. Install the required dependencies by running the following command inside the `/`directory. 
    `npm install`
 
 ### Running the Sample App
@@ -54,32 +54,32 @@ This application can be run either in an emulator or an actual device. Some conf
 1. If the WSO2 IS is hosted in the local machine, you have to change the domain of the endpoints defined in `.env` 
 file `10.0.2.2`. Refer the documentation on [emulator-networking](https://developer.android.com/studio/run/emulator-networking). 
 Next change the hostname of Identity server as `10.0.2.2` in the `<IS_HOME>/repository/conf/deployment.toml` 
-file. </br></br>
+file. 
 
 2. By default, IS uses a self-signed certificate. If you ended up in SSL issues and are using the default pack without 
 changing to a CA signed certificate, follow this 
-[guide](https://developer.android.com/training/articles/security-config) to get rid of SSL issues. </br></br>
+[guide](https://developer.android.com/training/articles/security-config) to get rid of SSL issues. 
 
 3. Sometimes you may get `SSLHandshakeException` in android application since WSO2 IS is using a self-signed 
-certificate. To fix this exception, you need to add the public certificate of IS to the sample application. </br></br>
+certificate. To fix this exception, you need to add the public certificate of IS to the sample application. 
 
    i. Create a new keystore with CN as localhost and SAN as `10.0.2.2`.
 
    `keytool -genkey -alias wso2carbon -keyalg RSA -keystore wso2carbon.jks -keysize 2048 -ext SAN=IP:10.0.2.2`
-   </br></br>
+   
 
    ii. Export the public certificate (ex: `wso2carbon.pem`) to add into the truststore.
 
    `keytool -exportcert -alias wso2carbon -keystore wso2carbon.jks -rfc -file wso2carbon.pem`
-   </br></br>
+   
 
    iii. Import the certificate in the client-truststore.jks file located in  `<IS_HOME>/repository/resources/security/`.
 
    `keytool -import -alias wso2is -file wso2carbon.pem -keystore client-truststore.jks -storepass wso2carbon`
-   </br></br>
+   
 
    iv. Now copy this public certificate (`wso2carbon.pem`) to the  `app/src/main/res/raw`  folder.
-   </br></br>
+   
 
    v. Create a new file named  `network_security_config.xml`  in `sample/android/app/src/main/res/xml` folder and copy the below content to it. Make sure to replace `wso2carbon` with the certificate name you added.
    
@@ -99,9 +99,9 @@ certificate. To fix this exception, you need to add the public certificate of IS
    ```
 
    vi. Then add the following config to the `sample/android/app/src/main/AndroidManifest.xml` file  under 
-`application` section. </br></br>
+`application` section. 
 
-   `android:networkSecurityConfig="@xml/network_security_config"` </br></br>   
+   `android:networkSecurityConfig="@xml/network_security_config"`    
 
    Now the `AndroidManifest.xml` file should look like below.
    ```
@@ -113,19 +113,19 @@ certificate. To fix this exception, you need to add the public certificate of IS
       >
       </application>
       </manifest>`
-   ...
+   ```
 
 ### Running in an Android Emulator
 
 1. Create a suitable Android virtual device using the **Android virtual device manager (AVD Manager)** and launch it.
-</br></br>
+
 
 2. Build and deploy the apps by running the following command at the root directory.
    `react-native run-android`
 
 ### Running in an Android Device
 
-1. Enable **Debugging over USB** and plug in your device via USB. </br></br>
+1. Enable **Debugging over USB** and plug in your device via USB. 
 
 2. Build and deploy the apps by running the following command at the root directory.
    `react-native run-android`

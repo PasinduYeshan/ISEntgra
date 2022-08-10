@@ -29,11 +29,11 @@ dependencies {
 ```
 
 3. Download the entgra native module zip file from this
-   [link](https://github.com/PasinduYeshan/files/raw/main/entgra_native_module.zip). </br></br>
+   [link](https://github.com/PasinduYeshan/files/raw/main/entgra_native_module.zip). 
 
 4. Create a folder name `entgraSrvices` inside the `<APP_ROOT_DIRECTORY>/android/app/src/main/java/com/<app_name>/`.
    Extract the `entgra_native_module.zip` file and copy the `EntgraServiceManager.kt` and `EntgraServicePackage.kt`
-   files to the `<APP_ROOT_DIRECTORY>/android/app/src/main/java/com/<app_name>/entgraServices` folder. </br></br>
+   files to the `<APP_ROOT_DIRECTORY>/android/app/src/main/java/com/<app_name>/entgraServices` folder. 
 
 5. Import the `EntgraServicePackage` to the `MainApplication.java` file inside 
 `<APP_ROOT_DIRECTORY>/android/app/src/main/java/com/<app_name>/`. and add `packages.add(new EntgraServicePackage());` 
@@ -50,16 +50,16 @@ import com.isentgra.entgraServices.EntgraServicePackage;
       return packages;
     }
 ```
-8. Refer this [docs](native_module_wrapper.md) to access native module from JavaScript.</br></br>
+8. Refer this [doc](native_module_wrapper.md) to access native module from JavaScript.
 
-9. Clone/download this project from [repo link](https://github.com/asgardeo/asgardeo-react-native-oidc-sdk). </br></br>
+9. Clone/download this project from [repo link](https://github.com/asgardeo/asgardeo-react-native-oidc-sdk). 
 
 10. Copy the `<PROJECT_ROOT>/lib` folder to the react native application root directory and rename it to 
-`asgardeo-react-native-sdk`. </br></br>
+`asgardeo-react-native-sdk`. 
 
 11. Install the dependencies and generate the tar file by running the following command inside
    the `asgardeo-react-native-sdk/` directory.
-   `npm pack` </br></br>
+   `npm pack` 
 
 12. Create a `.env` file inside the project root folder and add the relevant configurations.
     - Replace the value of `clientID` with the value of `OAuth Client Key` or `Client ID` which you copied when you 
@@ -98,9 +98,9 @@ import com.isentgra.entgraServices.EntgraServicePackage;
         ```
 
 13. Install the required dependencies by running the following command inside the project root directory.
-    `npm install` </br></br>
+    `npm install` 
 
-14. Refer this [doc](login_page.md) to create a login page. </br></br>
+14. Refer this [doc](login_page.md) to create a sample login page.
 
 15. Refer this [doc](https://github.com/asgardeo/asgardeo-react-native-oidc-sdk#apis) for more information regarding 
 APIs.

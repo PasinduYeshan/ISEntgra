@@ -1,4 +1,4 @@
-## Login APIs
+## Login page
 
 ###  Initialize the auth client with the config data
 This method initializes the auth client with the config data.
